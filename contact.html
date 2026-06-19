@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — LIN's Authentic Fashion</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">LIN's</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="shop.html" class="nav-cta">Shop Now</a></li>
+      <li><a href="admin.html" class="nav-admin-btn" onclick="return confirmAdmin()">Admin</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:16px"><span></span>Get In Touch</div>
+    <h1 class="page-hero-title">Contact <span class="grad-text">Us</span></h1>
+    <p class="page-hero-sub">We're always happy to hear from you. Reach out anytime.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- LEFT: contact info -->
+      <div class="contact-info">
+        <div class="contact-item reveal">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>University of Cape Coast Campus<br>Cape Coast, Ghana</p>
+          </div>
+        </div>
+        <div class="contact-item reveal delay-1">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone / WhatsApp</h4>
+            <a href="tel:+233595070658">+233 595 070 658</a><br>
+            <a href="tel:+233241277167">+233 241 277 167</a>
+          </div>
+        </div>
+        <div class="contact-item reveal delay-2">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:lindasarkwahstar@gmail.com">lindasarkwahstar@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item reveal delay-3">
+          <div class="contact-icon">💬</div>
+          <div>
+            <h4>WhatsApp (Order Direct)</h4>
+            <a href="https://wa.me/233241277167" target="_blank">+233 241 277 167</a>
+          </div>
+        </div>
+        <div class="contact-item reveal delay-4">
+          <div class="contact-icon" style="font-size:1rem;font-weight:900;color:var(--green)">f</div>
+          <div>
+            <h4>Facebook</h4>
+            <a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank">LIN's Store — Facebook</a>
+          </div>
+        </div>
+
+        <!-- Quick WA CTA -->
+        <div class="reveal" style="margin-top:8px">
+          <a href="https://wa.me/233241277167?text=Hello%20LIN's!%20I'd%20like%20to%20place%20an%20order."
+             target="_blank" class="btn-primary" style="display:inline-flex;width:100%;justify-content:center">
+            <span>💬 Chat on WhatsApp Now</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: message form -->
+      <div class="contact-form-wrap reveal">
+        <h3>Send a <span class="grad-text">Message</span></h3>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input id="cName" type="text" class="form-control" placeholder="e.g. Kofi Mensah"/>
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp</label>
+          <input id="cPhone" type="tel" class="form-control" placeholder="+233…"/>
+        </div>
+        <div class="form-group">
+          <label>Email (optional)</label>
+          <input id="cEmail" type="email" class="form-control" placeholder="you@example.com"/>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="cMsg" class="form-control" rows="4" placeholder="Tell us what you'd like to order, or ask any question…"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%" onclick="sendViaWA()"><span>Send via WhatsApp →</span></button>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:12px;text-align:center">This opens WhatsApp with your message pre-filled. No account needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP EMBED -->
+<section class="section-sm" style="background:rgba(22,33,62,0.3)">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Find Us</span>
+      <h2 class="section-title">📍 <span class="grad-text">Our Location</span></h2>
+    </div>
+    <div class="reveal" style="border-radius:20px;overflow:hidden;border:1px solid rgba(0,255,135,0.1);height:380px">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.0!2d-1.2716!3d5.1054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfddfa5e4a3d4f59%3A0xf2c7b7b2c0e53d5f!2sUniversity%20of%20Cape%20Coast!5e0!3m2!1sen!2sgh!4v1710000000000"
+        width="100%" height="100%" style="border:0;filter:grayscale(60%) invert(10%)" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">LIN's</span>
+        <p>Authentic fashion for the modern campus lifestyle.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank" class="social-btn">f</a>
+          <a href="https://wa.me/233241277167" target="_blank" class="social-btn">W</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Categories</h4><ul><li><a href="shop.html?cat=clothing">Clothing</a></li><li><a href="shop.html?cat=footwear">Footwear</a></li><li><a href="shop.html?cat=perfumes">Perfumes</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:lindasarkwahstar@gmail.com">lindasarkwahstar@gmail.com</a></li><li><a href="tel:+233595070658">+233 595 070 658</a></li><li><a href="tel:+233241277167">+233 241 277 167</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 LIN's. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/233241277167" target="_blank" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>40));
+function toggleMenu(){ document.getElementById('navLinks').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+function confirmAdmin(){ return confirm('Admin area only. Continue?'); }
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+function sendViaWA(){
+  const name=document.getElementById('cName').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const msg=document.getElementById('cMsg').value.trim();
+  if(!name||!msg){ alert('Please fill in your name and message.'); return; }
+  const text=`Hello LIN's Store!\n\n*Name:* ${name}\n${phone?'*Phone:* '+phone+'\n':''}\n*Message:*\n${msg}`;
+  window.open('https://wa.me/233241277167?text='+encodeURIComponent(text),'_blank');
+}
+</script>
+</body>
+</html>

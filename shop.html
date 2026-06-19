@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — LIN's Authentic Fashion</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">LIN's</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="shop.html" class="nav-cta">Shop Now</a></li>
+      <li><a href="admin.html" class="nav-admin-btn" onclick="return confirmAdmin()">Admin</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:16px"><span></span>All Products</div>
+    <h1 class="page-hero-title">Our <span class="grad-text">Collection</span></h1>
+    <p class="page-hero-sub">Browse T-shirts, Clothing, Footwear, Perfumes &amp; Sneakers</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Search + Filter -->
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:32px" class="reveal">
+      <div style="flex:1;min-width:240px;position:relative">
+        <input id="searchInput" type="text" class="form-control" placeholder="🔍  Search products…" oninput="filterProducts()" style="padding-left:20px"/>
+      </div>
+    </div>
+    <div class="filter-bar reveal" id="filterBar">
+      <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+      <!-- category buttons injected by JS -->
+    </div>
+
+    <div class="products-grid" id="shopGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--muted)">
+        <p>Loading products…</p>
+      </div>
+    </div>
+
+    <div id="emptyState" style="display:none;text-align:center;padding:80px 0">
+      <div style="font-size:4rem;margin-bottom:16px">🔍</div>
+      <h3 style="margin-bottom:8px">No products found</h3>
+      <p style="color:var(--muted)">Try a different search or category</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">LIN's</span>
+        <p>Authentic fashion for the modern campus lifestyle.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank" class="social-btn">f</a>
+          <a href="https://wa.me/233241277167" target="_blank" class="social-btn">W</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Categories</h4><ul><li><a href="#" onclick="setFilter(null,'clothing')">Clothing</a></li><li><a href="#" onclick="setFilter(null,'footwear')">Footwear</a></li><li><a href="#" onclick="setFilter(null,'perfumes')">Perfumes</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:lindasarkwahstar@gmail.com">lindasarkwahstar@gmail.com</a></li><li><a href="tel:+233595070658">+233 595 070 658</a></li><li><a href="tel:+233241277167">+233 241 277 167</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 LIN's. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/233241277167" target="_blank" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="document.getElementById('productModal').classList.remove('open')">✕</button>
+    <div class="modal-img" id="modalImg"><div class="modal-img-placeholder">👕</div></div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div><div class="modal-label">Select Size</div><div class="size-picker" id="modalSizes"></div></div>
+      <div><div class="modal-label">Select Colour</div><div class="modal-colors" id="modalColors"></div></div>
+      <button class="modal-wa-btn" id="modalWaBtn">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order on WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy, getDoc, doc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const app = initializeApp({ apiKey:"AIzaSyCv-A9NyGd3DSn9GCdUlNxjK0ZBwPXKa6s", authDomain:"lins-store.firebaseapp.com", projectId:"lins-store", storageBucket:"lins-store.firebasestorage.app", messagingSenderId:"190276558270", appId:"1:190276558270:web:6ac345566c5820e578adef" });
+const db = getFirestore(app);
+
+window._allProducts = [];
+window._currentFilter = 'all';
+window._currentProduct = null;
+window._selectedSize = null;
+window._selectedColor = null;
+
+async function loadAll() {
+  const grid = document.getElementById('shopGrid');
+  try {
+    const snap = await getDocs(query(collection(db,'products'), orderBy('createdAt','desc')));
+    window._allProducts = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    renderGrid();
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--muted)"><p>Products will appear here once added by the admin.</p></div>`;
+  }
+}
+
+window.renderGrid = function() {
+  const grid = document.getElementById('shopGrid');
+  const search = (document.getElementById('searchInput').value||'').toLowerCase();
+  const cat = window._currentFilter;
+  const filtered = window._allProducts.filter(p => {
+    const matchCat = cat==='all' || (p.category||'').toLowerCase()===cat;
+    const matchSearch = !search || p.name.toLowerCase().includes(search) || (p.category||'').toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+  document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+  grid.innerHTML = '';
+  filtered.forEach((p,i) => grid.appendChild(buildCard(p,i)));
+  initReveal();
+};
+
+window.filterProducts = renderGrid;
+window.setFilter = function(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  window._currentFilter = cat;
+  renderGrid();
+};
+
+function buildCard(p, i) {
+  const el = document.createElement('div');
+  el.className = 'product-card reveal';
+  el.style.transitionDelay = (i%8 * 0.07)+'s';
+  const colors = (p.colors||[]).map(c=>`<span class="color-dot" style="background:${c}"></span>`).join('');
+  const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy"/>` : `<div class="product-img-placeholder">${catIcon(p.category)}</div>`;
+  el.innerHTML = `
+    <div class="product-img-wrap">${imgHtml}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}
+      <div class="product-overlay"><button class="product-overlay-btn">Quick View</button></div>
+    </div>
+    <div class="product-info">
+      <div class="product-cat">${p.category||''}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">GH₵ ${p.price}</div>
+      ${colors?`<div class="product-colors">${colors}</div>`:''}
+    </div>`;
+  el.addEventListener('click', ()=>openModal(p));
+  return el;
+}
+
+function catIcon(c){ return {clothing:'👕',footwear:'👟',perfumes:'🌸'}[(c||'').toLowerCase()]||'🛍'; }
+
+window.openModal = function(p) {
+  window._currentProduct = p;
+  window._selectedSize = null; window._selectedColor = null;
+  document.getElementById('modalCat').textContent = p.category||'';
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = 'GH₵ '+p.price;
+  const imgEl = document.getElementById('modalImg');
+  imgEl.innerHTML = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}"/>` : `<div class="modal-img-placeholder">${catIcon(p.category)}</div>`;
+  document.getElementById('modalSizes').innerHTML = (p.sizes||['S','M','L','XL','2XL']).map(s=>`<button class="size-btn" onclick="selectSize(this,'${s}')">${s}</button>`).join('');
+  document.getElementById('modalColors').innerHTML = (p.colors||[]).map(c=>`<button class="modal-color-btn" style="background:${c}" onclick="selectColor(this,'${c}')"></button>`).join('');
+  updateWALink();
+  document.getElementById('productModal').classList.add('open');
+};
+
+window.selectSize = function(btn,s){ document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); window._selectedSize=s; updateWALink(); };
+window.selectColor = function(btn,c){ document.querySelectorAll('.modal-color-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); window._selectedColor=c; updateWALink(); };
+
+function updateWALink(){
+  const p = window._currentProduct; if(!p) return;
+  const size = window._selectedSize||'not selected';
+  const color = window._selectedColor||'not selected';
+  const msg = `Hello LIN's Store! I'd like to order:\n\n*Product:* ${p.name}\n*Size:* ${size}\n*Colour:* ${color}\n*Price:* GH₵ ${p.price}\n\nPlease confirm availability. Thank you!`;
+  document.getElementById('modalWaBtn').onclick = ()=>{ window.open('https://wa.me/233241277167?text='+encodeURIComponent(msg),'_blank'); };
+}
+
+window.closeModal = function(e){ if(e.target.id==='productModal') document.getElementById('productModal').classList.remove('open'); };
+
+const BUILTIN_CATS = ['clothing','footwear','perfumes'];
+
+async function loadCategories() {
+  try {
+    const snap = await getDoc(doc(db,'settings','categories'));
+    const extras = snap.exists() ? (snap.data().list || []) : [];
+    const all = [...BUILTIN_CATS, ...extras];
+    const bar = document.getElementById('filterBar');
+    // Remove old cat buttons (keep "All")
+    bar.querySelectorAll('.cat-filter-btn').forEach(b => b.remove());
+    all.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn cat-filter-btn';
+      btn.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+      btn.onclick = () => setFilter(btn, cat.toLowerCase());
+      bar.appendChild(btn);
+    });
+    // Honour URL param after categories are rendered
+    const urlCat = new URLSearchParams(location.search).get('cat');
+    if (urlCat) {
+      bar.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent.toLowerCase() === urlCat || (b.textContent === 'All' && urlCat === 'all'));
+      });
+      window._currentFilter = urlCat;
+      renderGrid();
+    }
+  } catch(e) { /* silently fall back to built-in cats */ }
+}
+
+// Check URL param early (before cats load)
+const urlCat = new URLSearchParams(location.search).get('cat');
+if (urlCat) { window._currentFilter = urlCat; }
+
+loadAll();
+loadCategories();
+</script>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>40));
+function toggleMenu(){ document.getElementById('navLinks').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+function confirmAdmin(){ return confirm('Admin area only. Continue?'); }
+function initReveal(){ const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}}),{threshold:0.1}); document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)); }
+initReveal();
+</script>
+</body>
+</html>

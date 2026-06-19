@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — LIN's Authentic Fashion</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">LIN's</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="shop.html" class="nav-cta">Shop Now</a></li>
+      <li><a href="admin.html" class="nav-admin-btn" onclick="return confirmAdmin()">Admin</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:radial-gradient(ellipse 70% 70% at 50% 0%,rgba(0,255,135,0.1) 0%,transparent 65%)">
+  <div class="container">
+    <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:16px"><span></span>Who We Are</div>
+    <h1 class="page-hero-title">About <span class="grad-text">LIN's</span></h1>
+    <p class="page-hero-sub">The story behind Cape Coast's favourite campus fashion brand</p>
+  </div>
+</div>
+
+<!-- BRAND STORY -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center" class="reveal">
+      <div>
+        <span class="section-eyebrow">Our Story</span>
+        <h2 class="section-title" style="text-align:left">Born on <span class="grad-text">Campus</span></h2>
+        <p style="color:var(--muted);line-height:1.8;margin-bottom:20px">LIN's began with a simple idea — that students and young professionals at the University of Cape Coast deserved access to authentic, stylish fashion without leaving campus or breaking the bank.</p>
+        <p style="color:var(--muted);line-height:1.8;margin-bottom:20px">From plain T-shirts to premium sneakers, men's wear to luxury perfumes, every product we carry is handpicked for quality and style. We don't just sell clothes — we help you express who you are.</p>
+        <p style="color:var(--muted);line-height:1.8">Today, LIN's delivers nationwide across Ghana while remaining rooted in the UCC campus community we love.</p>
+      </div>
+      <div style="position:relative">
+        <div style="border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:var(--navy);box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(0,255,135,0.1)">
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80" alt="LIN's Store" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='var(--navy)'"/>
+        </div>
+        <div style="position:absolute;bottom:-20px;right:-20px;background:var(--navy);border:1px solid rgba(0,255,135,0.2);border-radius:16px;padding:20px 24px;backdrop-filter:blur(10px)">
+          <div style="font-family:var(--font-display);font-size:2.5rem;line-height:1" class="grad-text">2020</div>
+          <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">Founded on Campus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES CARDS -->
+<section class="section" style="background:rgba(22,33,62,0.2)">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">What Drives Us</span>
+      <h2 class="section-title">Our <span class="grad-text">Values</span></h2>
+      <p class="section-sub">Every stitch, every style, every delivery is guided by these principles.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card reveal delay-1">
+        <div class="about-icon">✨</div>
+        <h3>Authenticity First</h3>
+        <p>Every product we carry is 100% genuine. No fakes, no compromises. You deserve the real thing — and that's exactly what you get with LIN's.</p>
+      </div>
+      <div class="about-card reveal delay-2">
+        <div class="about-icon">🎯</div>
+        <h3>Student-Centred</h3>
+        <p>We understand campus life. Our pricing, delivery timelines, and product range are all designed with students and young professionals in mind.</p>
+      </div>
+      <div class="about-card reveal delay-3">
+        <div class="about-icon">🚀</div>
+        <h3>Fast Delivery</h3>
+        <p>Campus orders arrive in 1–2 business days. Nationwide across Ghana in 2–5 days. We move as fast as your lifestyle demands.</p>
+      </div>
+      <div class="about-card reveal delay-1">
+        <div class="about-icon">💬</div>
+        <h3>Personal Service</h3>
+        <p>Hit us on WhatsApp and a real person responds. No bots, no delays — just friendly, helpful service every time you reach out.</p>
+      </div>
+      <div class="about-card reveal delay-2">
+        <div class="about-icon">🔄</div>
+        <h3>Hassle-Free Returns</h3>
+        <p>Changed your mind? No problem. We accept exchanges within 7 days of delivery, no questions asked, as long as the item is in original condition.</p>
+      </div>
+      <div class="about-card reveal delay-3">
+        <div class="about-icon">🌍</div>
+        <h3>Nationwide Reach</h3>
+        <p>From Cape Coast to Accra, Kumasi to Tamale — we deliver across Ghana so every fashion lover can access LIN's.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM / MISSION -->
+<section class="section">
+  <div class="container">
+    <div style="max-width:720px;margin:0 auto;text-align:center" class="reveal">
+      <span class="section-eyebrow">Our Mission</span>
+      <h2 class="section-title">Dress the <span class="grad-text">Future</span></h2>
+      <p style="color:var(--muted);font-size:1.05rem;line-height:1.8;margin-bottom:40px">
+        We believe fashion is self-expression. LIN's mission is to make premium, authentic fashion accessible to every student, professional, and style-lover in Ghana — starting right here at UCC.
+      </p>
+      <a href="shop.html" class="btn-primary"><span>🛍 Browse the Collection</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="section" style="background:rgba(22,33,62,0.2)" id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Got Questions?</span>
+      <h2 class="section-title">Frequently Asked <span class="grad-text">Questions</span></h2>
+      <p class="section-sub">Everything you need to know before placing your order.</p>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-card reveal delay-1">
+        <div class="faq-q">What sizes are available for T-shirts?</div>
+        <div class="faq-a">We stock sizes from S to 3XL. If you need a specific size, just mention it when you contact us and we'll confirm availability.</div>
+      </div>
+      <div class="faq-card reveal delay-2">
+        <div class="faq-q">What payment methods do you accept?</div>
+        <div class="faq-a">We accept MTN Mobile Money, Telecel Cash, AirtelTigo Money, and bank transfers. Cash on pickup is also available.</div>
+      </div>
+      <div class="faq-card reveal delay-3">
+        <div class="faq-q">Do you deliver outside Campus?</div>
+        <div class="faq-a">Yes! We deliver nationwide across Ghana. Delivery charges may vary by location — contact us for your area's rate.</div>
+      </div>
+      <div class="faq-card reveal delay-1">
+        <div class="faq-q">How long does delivery take?</div>
+        <div class="faq-a">Campus deliveries typically take 1–2 business days. Nationwide deliveries take 2–5 business days depending on your region.</div>
+      </div>
+      <div class="faq-card reveal delay-2">
+        <div class="faq-q">Can I exchange or return an item?</div>
+        <div class="faq-a">Yes, we accept exchanges within 7 days of delivery if the item is unused and in its original condition. Contact us to arrange it.</div>
+      </div>
+      <div class="faq-card reveal delay-3">
+        <div class="faq-q">Do you restock sold-out items?</div>
+        <div class="faq-a">Yes! Follow us on Facebook or contact us on WhatsApp to be notified when your favourite items are back in stock.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ORDER -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Simple Steps</span>
+      <h2 class="section-title">How to <span class="grad-text">Order</span></h2>
+    </div>
+    <div class="order-steps">
+      <div class="order-step reveal delay-1"><div class="step-num">01</div><h3>Browse &amp; Choose</h3><p>Pick the item(s) you want from our collection above.</p></div>
+      <div class="order-step reveal delay-2"><div class="step-num">02</div><h3>Contact Us</h3><p>Reach us on WhatsApp, call, or email with your item, size, and colour.</p></div>
+      <div class="order-step reveal delay-3"><div class="step-num">03</div><h3>Confirm &amp; Pay</h3><p>We confirm availability and price, then you pay via Mobile Money or bank transfer.</p></div>
+      <div class="order-step reveal delay-4"><div class="step-num">04</div><h3>Delivery</h3><p>We deliver to your location or you can arrange a quick campus pickup — fast and easy.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">LIN's</span>
+        <p>Authentic fashion for the modern campus lifestyle.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank" class="social-btn">f</a>
+          <a href="https://wa.me/233241277167" target="_blank" class="social-btn">W</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Categories</h4><ul><li><a href="shop.html?cat=clothing">Clothing</a></li><li><a href="shop.html?cat=footwear">Footwear</a></li><li><a href="shop.html?cat=perfumes">Perfumes</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:lindasarkwahstar@gmail.com">lindasarkwahstar@gmail.com</a></li><li><a href="tel:+233595070658">+233 595 070 658</a></li><li><a href="tel:+233241277167">+233 241 277 167</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 LIN's. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/233241277167" target="_blank" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>40));
+function toggleMenu(){ document.getElementById('navLinks').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+function confirmAdmin(){ return confirm('Admin area only. Continue?'); }
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
