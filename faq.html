@@ -1,469 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FAQ & How to Order — LIN's Authentic Fashion</title>
-  <link rel="stylesheet" href="style.css"/>
-  <style>
-    .faq-hero-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
-    .particle {
-      position:absolute; border-radius:50%;
-      background: var(--green); opacity:0.12;
-      animation: floatParticle linear infinite;
-    }
-    @keyframes floatParticle {
-      0%   { transform: translateY(100vh) scale(0); opacity:0; }
-      10%  { opacity:0.15; }
-      90%  { opacity:0.08; }
-      100% { transform: translateY(-100px) scale(1); opacity:0; }
-    }
-    .faq-accordion { display:flex; flex-direction:column; gap:16px; }
-    .faq-acc-item {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-    .faq-acc-item:hover { border-color: rgba(0,255,135,0.2); }
-    .faq-acc-item.open { border-color: rgba(0,255,135,0.3); background: rgba(22,33,62,0.9); }
-    .faq-acc-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 22px 28px; cursor: pointer; gap: 16px;
-      font-weight: 600; font-size: 0.97rem; color: var(--text);
-      transition: color var(--transition);
-    }
-    .faq-acc-item.open .faq-acc-header { color: var(--green); }
-    .faq-acc-icon {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      background: rgba(0,255,135,0.1); border: 1px solid rgba(0,255,135,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: var(--green);
-      transition: transform var(--transition), background var(--transition);
-    }
-    .faq-acc-item.open .faq-acc-icon { transform: rotate(45deg); background: rgba(0,255,135,0.2); }
-    .faq-acc-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-    }
-    .faq-acc-item.open .faq-acc-body { max-height: 300px; }
-    .faq-acc-content {
-      padding: 0 28px 22px;
-      color: var(--muted); font-size: 0.92rem; line-height: 1.8;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding-top: 16px;
-    }
-    .order-timeline { position: relative; padding-left: 40px; }
-    .order-timeline::before {
-      content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--green), var(--cyan), transparent);
-    }
-    .timeline-step {
-      position: relative; margin-bottom: 48px;
-      animation: fadeSlideUp 0.6s ease both;
-    }
-    .timeline-step:last-child { margin-bottom: 0; }
-    .timeline-dot {
-      position: absolute; left: -47px; top: 4px;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--cyan));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 800; color: var(--dark);
-      box-shadow: 0 0 0 4px rgba(0,255,135,0.15);
-    }
-    .timeline-step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-    .timeline-step p { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
-    .payment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 16px; margin-top: 32px; }
-    .payment-card {
-      background: var(--glass); border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius); padding: 20px; text-align: center;
-      transition: var(--transition);
-    }
-    .payment-card:hover { border-color: rgba(0,255,135,0.2); transform: translateY(-4px); }
-    .payment-card .icon { font-size: 2rem; margin-bottom: 8px; }
-    .payment-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--text); }
-    .payment-card p { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQ — LIN's Fashion</title>
+<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
+<div class="bg-grid"></div>
 <nav class="navbar" id="navbar">
-  <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">LIN's</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="shop.html" class="nav-cta">Shop Now</a></li>
-      <li><a href="admin.html" class="nav-admin-btn" onclick="return confirmAdmin()">Admin</a></li>
-    </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-  </div>
+  <a href="index.html" class="nav-logo">LIN's</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li><li><a href="faq.html" class="active">FAQ</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="shop.html" class="nav-cta-link">Shop Now</a></li>
+    <li><a href="admin.html" class="nav-admin-link" onclick="return confirm('Admin only?')">Admin</a></li>
+  </ul>
+  <div class="nav-right"><button class="hamburger" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></button></div>
 </nav>
+<ul class="nav-drawer" id="drawer">
+  <li><a href="index.html" onclick="closeMenu()">Home</a></li><li><a href="shop.html" onclick="closeMenu()">Shop</a></li>
+  <li><a href="about.html" onclick="closeMenu()">About</a></li><li><a href="faq.html" class="active" onclick="closeMenu()">FAQ</a></li>
+  <li><a href="contact.html" onclick="closeMenu()">Contact</a></li>
+  <li><a href="shop.html" class="d-cta" onclick="closeMenu()">Shop Now</a></li>
+  <li><a href="admin.html" class="d-admin" onclick="return confirm('Admin only?')">Admin</a></li>
+</ul>
 
-<!-- PAGE HERO with particles -->
-<div class="page-hero" style="padding:160px 0 100px;position:relative;overflow:hidden">
-  <div class="faq-hero-particles" id="particles"></div>
-  <!-- animated grid bg -->
-  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,135,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,135,0.03) 1px,transparent 1px);background-size:50px 50px;animation:gridMove 25s linear infinite"></div>
-  <div class="container" style="position:relative;z-index:2">
-    <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:20px"><span></span>Everything You Need to Know</div>
-    <h1 class="page-hero-title">FAQ & <span class="grad-text">How to Order</span></h1>
-    <p class="page-hero-sub" style="max-width:560px;margin:0 auto">Your questions answered. Ordering made simple.</p>
-    <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap">
-      <a href="#faq" class="btn-primary"><span>📋 View FAQs</span></a>
-      <a href="#order" class="btn-outline">How to Order →</a>
-    </div>
+<div class="page-hero">
+  <div class="container">
+    <div class="hero-badge-pill" style="justify-content:center;margin-bottom:10px"><span></span>Got Questions?</div>
+    <h1>FAQ & <span class="grad-text">How to Order</span></h1>
+    <p>Everything you need to know</p>
   </div>
 </div>
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
-  <div class="marquee">
-    <span class="marquee-item">MTN MoMo <span>✦</span></span>
-    <span class="marquee-item">Telecel Cash <span>✦</span></span>
-    <span class="marquee-item">AirtelTigo <span>✦</span></span>
-    <span class="marquee-item">Bank Transfer <span>✦</span></span>
-    <span class="marquee-item">Cash on Pickup <span>✦</span></span>
-    <span class="marquee-item">Campus Delivery <span>✦</span></span>
-    <span class="marquee-item">Nationwide Ghana <span>✦</span></span>
-    <span class="marquee-item">7-Day Exchange <span>✦</span></span>
-    <span class="marquee-item">MTN MoMo <span>✦</span></span>
-    <span class="marquee-item">Telecel Cash <span>✦</span></span>
-    <span class="marquee-item">AirtelTigo <span>✦</span></span>
-    <span class="marquee-item">Bank Transfer <span>✦</span></span>
-    <span class="marquee-item">Cash on Pickup <span>✦</span></span>
-    <span class="marquee-item">Campus Delivery <span>✦</span></span>
-    <span class="marquee-item">Nationwide Ghana <span>✦</span></span>
-    <span class="marquee-item">7-Day Exchange <span>✦</span></span>
+  <div class="marquee-track">
+    <span class="marquee-item">MTN MoMo <em>✦</em></span><span class="marquee-item">Telecel Cash <em>✦</em></span>
+    <span class="marquee-item">AirtelTigo <em>✦</em></span><span class="marquee-item">Bank Transfer <em>✦</em></span>
+    <span class="marquee-item">Cash on Pickup <em>✦</em></span><span class="marquee-item">1–2 Day Campus Delivery <em>✦</em></span>
+    <span class="marquee-item">7-Day Exchange <em>✦</em></span><span class="marquee-item">MTN MoMo <em>✦</em></span>
+    <span class="marquee-item">Telecel Cash <em>✦</em></span><span class="marquee-item">AirtelTigo <em>✦</em></span>
+    <span class="marquee-item">Bank Transfer <em>✦</em></span><span class="marquee-item">Cash on Pickup <em>✦</em></span>
+    <span class="marquee-item">1–2 Day Campus Delivery <em>✦</em></span><span class="marquee-item">7-Day Exchange <em>✦</em></span>
   </div>
 </div>
 
-<!-- FAQ ACCORDION SECTION -->
-<section class="section" id="faq">
+<!-- FAQ -->
+<section class="section">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Common Questions</span>
-      <h2 class="section-title">Frequently Asked <span class="grad-text">Questions</span></h2>
-      <p class="section-sub">Can't find your answer? Message us on WhatsApp and we'll reply instantly.</p>
+    <div class="section-head reveal">
+      <div class="section-eye">Common Questions</div>
+      <h2 class="section-title">Frequently <span class="grad-text">Asked</span></h2>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start" class="faq-two-col">
-      <!-- LEFT column -->
-      <div class="faq-accordion reveal">
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>What sizes are available for T-shirts?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">We stock sizes from <strong style="color:var(--green)">S to 3XL</strong>. If you need a specific size, just mention it when you contact us and we'll confirm availability right away.</div>
-          </div>
-        </div>
-
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>What payment methods do you accept?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">We accept <strong style="color:var(--green)">MTN Mobile Money, Telecel Cash, AirtelTigo Money</strong>, and bank transfers. <strong style="color:var(--cyan)">Cash on pickup</strong> is also available when you collect on campus.</div>
-          </div>
-        </div>
-
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>Do you deliver outside Campus?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">Yes! We deliver <strong style="color:var(--green)">nationwide across Ghana</strong>. Delivery charges may vary by location — contact us for your area's rate and we'll sort it out for you.</div>
-          </div>
-        </div>
+    <div class="faq-list reveal">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>What sizes are available for T-shirts?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a">We stock sizes from <strong style="color:var(--green)">S to 3XL</strong>. Mention your size when you contact us and we'll confirm availability.</div></div>
       </div>
-
-      <!-- RIGHT column -->
-      <div class="faq-accordion reveal delay-2">
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>How long does delivery take?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">Campus deliveries typically take <strong style="color:var(--green)">1–2 business days</strong>. Nationwide deliveries take <strong style="color:var(--cyan)">2–5 business days</strong> depending on your region within Ghana.</div>
-          </div>
-        </div>
-
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>Can I exchange or return an item?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">Yes, we accept exchanges within <strong style="color:var(--green)">7 days of delivery</strong> if the item is unused and in its original condition. Contact us on WhatsApp to arrange it — simple and stress-free.</div>
-          </div>
-        </div>
-
-        <div class="faq-acc-item" onclick="toggleFaq(this)">
-          <div class="faq-acc-header">
-            <span>Do you restock sold-out items?</span>
-            <span class="faq-acc-icon">+</span>
-          </div>
-          <div class="faq-acc-body">
-            <div class="faq-acc-content">Yes! Follow us on <strong style="color:var(--green)">Facebook</strong> or contact us on <strong style="color:var(--cyan)">WhatsApp</strong> to be notified when your favourite items are back in stock.</div>
-          </div>
-        </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>What payment methods do you accept?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a"><strong style="color:var(--green)">MTN Mobile Money, Telecel Cash, AirtelTigo Money</strong>, bank transfers, and <strong style="color:var(--cyan)">cash on pickup</strong>.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>Do you deliver outside Campus?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a">Yes! We deliver <strong style="color:var(--green)">nationwide across Ghana</strong>. Contact us for your area's delivery rate.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>How long does delivery take?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a">Campus: <strong style="color:var(--green)">1–2 business days</strong>. Nationwide: <strong style="color:var(--cyan)">2–5 business days</strong> depending on your region.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>Can I exchange or return an item?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a">Yes! Exchanges within <strong style="color:var(--green)">7 days of delivery</strong>, if unused and in original condition. WhatsApp us to arrange.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>Do you restock sold-out items?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div class="faq-a">Yes! Follow us on <strong style="color:var(--green)">Facebook</strong> or WhatsApp us to get notified when items are back in stock.</div></div>
       </div>
     </div>
-
-    <!-- Still have questions CTA -->
-    <div class="reveal" style="margin-top:48px;text-align:center;background:var(--glass);border:1px solid rgba(0,255,135,0.12);border-radius:24px;padding:48px 32px">
-      <div style="font-size:2.5rem;margin-bottom:12px">💬</div>
-      <h3 style="font-size:1.4rem;margin-bottom:8px">Still have questions?</h3>
-      <p style="color:var(--muted);margin-bottom:24px">We're just a message away on WhatsApp — always happy to help.</p>
-      <a href="https://wa.me/233241277167?text=Hello%20LIN's!%20I%20have%20a%20question." target="_blank" class="btn-primary">
-        <span>💬 Chat on WhatsApp</span>
-      </a>
+    <div style="text-align:center;margin-top:20px;background:var(--glass);border:1px solid rgba(0,255,135,0.1);border-radius:14px;padding:24px 16px" class="reveal">
+      <div style="font-size:1.6rem;margin-bottom:8px">💬</div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px">Still have questions? We're on WhatsApp 24/7.</p>
+      <a href="https://wa.me/233241277167?text=Hello%20LIN's!%20I%20have%20a%20question." target="_blank" class="btn btn-wa">Chat on WhatsApp</a>
     </div>
   </div>
 </section>
 
-<!-- PAYMENT METHODS -->
-<section class="section-sm" style="background:rgba(22,33,62,0.3)">
+<!-- PAYMENTS -->
+<section class="section section-alt">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Payments</span>
+    <div class="section-head reveal">
+      <div class="section-eye">Payments</div>
       <h2 class="section-title">We Accept <span class="grad-text">All Methods</span></h2>
     </div>
     <div class="payment-grid reveal">
-      <div class="payment-card">
-        <div class="icon">📱</div>
-        <h4>MTN MoMo</h4>
-        <p>Mobile Money transfer</p>
-      </div>
-      <div class="payment-card">
-        <div class="icon">📲</div>
-        <h4>Telecel Cash</h4>
-        <p>Telecel mobile payment</p>
-      </div>
-      <div class="payment-card">
-        <div class="icon">💳</div>
-        <h4>AirtelTigo</h4>
-        <p>AirtelTigo Money</p>
-      </div>
-      <div class="payment-card">
-        <div class="icon">🏦</div>
-        <h4>Bank Transfer</h4>
-        <p>Direct bank payment</p>
-      </div>
-      <div class="payment-card">
-        <div class="icon">💵</div>
-        <h4>Cash on Pickup</h4>
-        <p>Pay when you collect</p>
-      </div>
+      <div class="payment-card"><div class="icon">📱</div><h4>MTN MoMo</h4><p>Mobile Money</p></div>
+      <div class="payment-card"><div class="icon">📲</div><h4>Telecel</h4><p>Telecel Cash</p></div>
+      <div class="payment-card"><div class="icon">💳</div><h4>AirtelTigo</h4><p>Mobile Money</p></div>
+      <div class="payment-card"><div class="icon">🏦</div><h4>Bank</h4><p>Transfer</p></div>
+      <div class="payment-card"><div class="icon">💵</div><h4>Cash</h4><p>On Pickup</p></div>
     </div>
   </div>
 </section>
 
-<!-- HOW TO ORDER — TIMELINE -->
-<section class="section" id="order">
+<!-- HOW TO ORDER -->
+<section class="section">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
-      <div class="reveal">
-        <span class="section-eyebrow">The Process</span>
-        <h2 class="section-title" style="text-align:left;margin-bottom:48px">How to <span class="grad-text">Order</span></h2>
-        <div class="order-timeline">
-          <div class="timeline-step delay-1">
-            <div class="timeline-dot">1</div>
-            <h3>🛍 Browse &amp; Choose</h3>
-            <p>Head to our Shop page and pick the item(s) you want. Browse by category — Clothing, Footwear, or Perfumes — and click any product to view sizes, colours, and price.</p>
-          </div>
-          <div class="timeline-step delay-2">
-            <div class="timeline-dot">2</div>
-            <h3>💬 Contact Us</h3>
-            <p>Reach us on WhatsApp, call, or email with your chosen item, size, and colour. You can also tap the <strong style="color:var(--green)">Order on WhatsApp</strong> button directly on the product — it fills in the details automatically!</p>
-          </div>
-          <div class="timeline-step delay-3">
-            <div class="timeline-dot">3</div>
-            <h3>✅ Confirm &amp; Pay</h3>
-            <p>We confirm stock availability and the final price. You then make payment via Mobile Money, bank transfer, or cash on pickup — whichever works best for you.</p>
-          </div>
-          <div class="timeline-step delay-4">
-            <div class="timeline-dot">4</div>
-            <h3>🚀 Fast Delivery</h3>
-            <p>We deliver directly to your location on or off campus. Campus orders arrive in 1–2 days, nationwide in 2–5 business days. Or arrange a quick pickup — your choice!</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right side visual card -->
-      <div class="reveal delay-2">
-        <div style="background:var(--glass);border:1px solid rgba(0,255,135,0.12);border-radius:24px;padding:40px;position:relative;overflow:hidden">
-          <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,255,135,0.1),transparent);border-radius:50%"></div>
-          <div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(96,239,255,0.08),transparent);border-radius:50%"></div>
-          <div style="position:relative;z-index:1">
-            <h3 style="font-family:var(--font-display);font-size:1.8rem;margin-bottom:24px">Quick <span class="grad-text">Order</span></h3>
-            <p style="color:var(--muted);font-size:0.92rem;margin-bottom:28px;line-height:1.7">Ready to order? Tap the button below to start a WhatsApp chat with us. Tell us what you want and we'll handle the rest!</p>
-
-            <a href="https://wa.me/233241277167?text=Hello%20LIN's!%20I'd%20like%20to%20place%20an%20order.%20Please%20assist%20me." target="_blank"
-               style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:16px 24px;border-radius:14px;font-weight:700;font-size:0.95rem;margin-bottom:16px;transition:var(--transition)"
-               onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 32px rgba(37,211,102,0.4)'"
-               onmouseout="this.style.transform='';this.style.boxShadow=''">
-              <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:#fff;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              Start Order on WhatsApp
-            </a>
-
-            <a href="shop.html" class="btn-outline" style="display:flex;align-items:center;justify-content:center;gap:8px">
-              🛍 Browse Products First
-            </a>
-
-            <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06)">
-              <p style="font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">Contact Options</p>
-              <div style="display:flex;flex-direction:column;gap:8px">
-                <a href="tel:+233595070658" style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:8px;transition:color 0.2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color=''">
-                  📞 +233 595 070 658
-                </a>
-                <a href="tel:+233241277167" style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:8px;transition:color 0.2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color=''">
-                  📞 +233 241 277 167
-                </a>
-                <a href="mailto:lindasarkwahstar@gmail.com" style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:8px;transition:color 0.2s" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
-                  ✉️ lindasarkwahstar@gmail.com
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="section-head reveal">
+      <div class="section-eye">Simple Steps</div>
+      <h2 class="section-title">How to <span class="grad-text">Order</span></h2>
     </div>
-  </div>
-</section>
-
-<!-- DELIVERY INFO CARDS -->
-<section class="section-sm" style="background:rgba(22,33,62,0.2)">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Delivery</span>
-      <h2 class="section-title">Delivery <span class="grad-text">Information</span></h2>
+    <div class="steps-grid">
+      <div class="step-card reveal d1"><div class="step-num grad-text">01</div><h3>Browse</h3><p>Pick from our collection — tap any product to view details.</p></div>
+      <div class="step-card reveal d2"><div class="step-num grad-text">02</div><h3>Contact Us</h3><p>WhatsApp, call, or email with your item, size and colour.</p></div>
+      <div class="step-card reveal d3"><div class="step-num grad-text">03</div><h3>Confirm & Pay</h3><p>We confirm stock, you pay via MoMo, bank or cash.</p></div>
+      <div class="step-card reveal d4"><div class="step-num grad-text">04</div><h3>Delivery</h3><p>Delivered to your door or quick campus pickup.</p></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
-      <div class="about-card reveal delay-1">
-        <div class="about-icon">🎓</div>
-        <h3>Campus Delivery</h3>
-        <p>1–2 business days. We deliver directly to your location on the University of Cape Coast Campus. Fast and convenient.</p>
-      </div>
-      <div class="about-card reveal delay-2">
-        <div class="about-icon">🇬🇭</div>
-        <h3>Nationwide Delivery</h3>
-        <p>2–5 business days depending on your region. We ship across all of Ghana. Contact us for your area's delivery charge.</p>
-      </div>
-      <div class="about-card reveal delay-3">
-        <div class="about-icon">🤝</div>
-        <h3>Campus Pickup</h3>
-        <p>Prefer to collect in person? Arrange a quick campus pickup — no delivery fee, just come and grab your order.</p>
-      </div>
-      <div class="about-card reveal delay-4">
-        <div class="about-icon">🔄</div>
-        <h3>Easy Exchange</h3>
-        <p>Changed your mind? Exchange within 7 days of delivery. Item must be unused and in original condition.</p>
-      </div>
+    <div style="text-align:center;margin-top:24px" class="reveal">
+      <a href="https://wa.me/233241277167?text=Hello%20LIN's!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="btn btn-wa">Start Order on WhatsApp →</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="nav-logo">LIN's</span>
-        <p>Authentic fashion for the modern campus lifestyle.</p>
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank" class="social-btn">f</a>
-          <a href="https://wa.me/233241277167" target="_blank" class="social-btn">W</a>
-        </div>
+    <div class="footer-top">
+      <div><a href="index.html" class="footer-logo grad-text">LIN's</a><p class="footer-tagline">Authentic campus fashion.</p>
+        <div class="footer-socials"><a href="https://www.facebook.com/share/1DbM8cs3KP/" target="_blank" class="social-btn">f</a><a href="https://wa.me/233241277167" target="_blank" class="social-btn">W</a></div>
       </div>
-      <div class="footer-col"><h4>Pages</h4><ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Categories</h4><ul>
-        <li><a href="shop.html?cat=clothing">Clothing</a></li>
-        <li><a href="shop.html?cat=footwear">Footwear</a></li>
-        <li><a href="shop.html?cat=perfumes">Perfumes</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="mailto:lindasarkwahstar@gmail.com">lindasarkwahstar@gmail.com</a></li>
-        <li><a href="tel:+233595070658">+233 595 070 658</a></li>
-        <li><a href="tel:+233241277167">+233 241 277 167</a></li>
-        <li><a href="#">UCC Campus, Cape Coast</a></li>
-      </ul></div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 LIN's — Authentic Fashion Style. All rights reserved.</p>
-      <p style="color:var(--green);font-size:0.75rem">📍 University of Cape Coast</p>
-    </div>
+    <div class="footer-bottom">&copy; 2025 LIN's · UCC Campus</div>
   </div>
 </footer>
-
-<a href="https://wa.me/233241277167" target="_blank" class="wa-float">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
+<a href="https://wa.me/233241277167" target="_blank" class="wa-float"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
 <script>
-// Navbar scroll
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 40));
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-  document.getElementById('hamburger').classList.toggle('open');
-}
-function confirmAdmin() { return confirm('Admin area only. Continue?'); }
-
-// Reveal on scroll
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-// FAQ Accordion
-window.toggleFaq = function(item) {
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-acc-item.open').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-};
-
-// Responsive FAQ grid
-function setFaqLayout() {
-  const twoCol = document.querySelector('.faq-two-col');
-  if (!twoCol) return;
-  twoCol.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : '1fr 1fr';
-}
-setFaqLayout();
-window.addEventListener('resize', setFaqLayout);
-
-// Generate floating particles
-(function() {
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = Math.random() * 6 + 3;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      animation-duration:${Math.random()*10+8}s;
-      animation-delay:${Math.random()*8}s;
-      background:${Math.random()>0.5?'var(--green)':'var(--cyan)'};
-      opacity:${Math.random()*0.15};
-    `;
-    container.appendChild(p);
-  }
-})();
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>30));
+function toggleMenu(){document.getElementById('ham').classList.toggle('open');document.getElementById('drawer').classList.toggle('open');}
+function closeMenu(){document.getElementById('ham').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
+function toggleFaq(item){const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open');}
+const o=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');o.unobserve(x.target);}}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>o.observe(el));
 </script>
 </body>
 </html>

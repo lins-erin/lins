@@ -1,704 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin — LIN's Store</title>
-  <link rel="stylesheet" href="style.css"/>
-  <style>
-    .loading-overlay{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:16px}
-    .spinner{width:48px;height:48px;border:3px solid rgba(0,255,135,0.2);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .admin-wrap{display:none}
-    .img-preview-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:12px}
-    .img-preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid rgba(0,255,135,0.2)}
-    .img-preview-item img{width:100%;height:100%;object-fit:cover}
-    .img-preview-item .del-img{position:absolute;top:4px;right:4px;width:20px;height:20px;background:rgba(255,0,0,0.8);border:none;border-radius:50%;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-    .upload-progress{height:4px;background:rgba(0,255,135,0.1);border-radius:2px;overflow:hidden;margin-top:8px;display:none}
-    .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:2px;width:0;transition:width 0.3s}
-    .badge-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;letter-spacing:0.5px}
-    .badge-clothing{background:rgba(0,255,135,0.15);color:var(--green)}
-    .badge-footwear{background:rgba(96,239,255,0.15);color:var(--cyan)}
-    .badge-perfumes{background:rgba(255,165,0,0.15);color:orange}
-    .modal-overlay.admin-modal{z-index:3000}
-    .admin-modal .modal{grid-template-columns:1fr;max-width:600px}
-    select.form-control option{background:var(--navy);color:var(--text)}
-    .stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:40px}
-    .stat-card{background:var(--navy);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:24px;text-align:center;transition:var(--transition)}
-    .stat-card:hover{border-color:rgba(0,255,135,0.2);transform:translateY(-3px)}
-    .stat-card .num{font-family:var(--font-display);font-size:2.5rem;line-height:1;margin-bottom:4px}
-    .stat-card .lbl{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — LIN's Store</title>
+<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<!-- Loading -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <p style="color:var(--muted);font-size:0.9rem">Checking access…</p>
+<!-- LOADING -->
+<div id="loadingScreen" style="position:fixed;inset:0;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:9999">
+  <div class="loading-spinner"></div>
+  <p style="color:var(--muted);font-size:0.8rem">Checking access…</p>
 </div>
 
-<!-- LOGIN SCREEN -->
-<div class="admin-login" id="loginScreen" style="display:none">
-  <div class="login-card">
-    <div class="login-logo grad-text">LIN's</div>
-    <h2>Admin Dashboard</h2>
-    <div class="form-group">
-      <label>Email</label>
-      <input id="loginEmail" type="email" class="form-control" placeholder="admin@lins.com" value="lindasarkwahstar@gmail.com"/>
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input id="loginPassword" type="password" class="form-control" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
-    </div>
-    <button class="btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()"><span>Sign In →</span></button>
-    <div class="login-err" id="loginErr"></div>
-    <div style="margin-top:24px;text-align:center">
-      <a href="index.html" style="color:var(--muted);font-size:0.85rem">← Back to Store</a>
+<!-- LOGIN -->
+<div id="loginScreen" style="display:none">
+  <div class="bg-grid"></div>
+  <div class="admin-login-wrap">
+    <div class="login-card">
+      <span class="login-logo grad-text">LIN's</span>
+      <h2>Admin Dashboard</h2>
+      <div class="form-group">
+        <label>Email</label>
+        <input id="loginEmail" type="email" class="form-control" placeholder="admin@lins.com"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="loginPass" type="password" class="form-control" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn btn-green btn-full" onclick="doLogin()">Sign In →</button>
+      <div class="login-err" id="loginErr"></div>
+      <div style="margin-top:20px;text-align:center">
+        <a href="index.html" style="color:var(--muted);font-size:0.78rem">← Back to Store</a>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ADMIN DASHBOARD -->
-<div class="admin-wrap" id="adminWrap">
-  <div class="admin-header">
-    <div class="container admin-header-inner">
-      <div style="display:flex;align-items:center;gap:16px">
-        <a href="index.html" class="nav-logo" style="font-size:1.5rem">LIN's</a>
-        <span style="color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px">Admin</span>
-      </div>
+<!-- DASHBOARD -->
+<div id="dashScreen" style="display:none">
+  <div class="admin-wrap">
+    <!-- Header -->
+    <div class="admin-header">
+      <a href="index.html" class="admin-logo grad-text">LIN's</a>
       <div class="admin-tabs">
         <button class="admin-tab active" onclick="switchTab('products')">Products</button>
-        <button class="admin-tab" onclick="switchTab('add')">Add Product</button>
+        <button class="admin-tab" onclick="switchTab('add')">Add</button>
         <button class="admin-tab" onclick="switchTab('settings')">Settings</button>
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span id="adminEmail" style="font-size:0.8rem;color:var(--muted)"></span>
-        <button onclick="doLogout()" style="background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.2);color:#ff4444;padding:7px 16px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:var(--font-ui);font-weight:600">Logout</button>
-      </div>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
     </div>
-  </div>
 
-  <div class="admin-content">
-    <div class="container">
+    <div class="admin-content">
+      <div class="container">
 
-      <!-- PRODUCTS PANEL -->
-      <div class="admin-panel active" id="panel-products">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px">
-          <h2 style="font-family:var(--font-display);font-size:2rem">All <span class="grad-text">Products</span></h2>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <input id="adminSearch" type="text" class="form-control" placeholder="🔍 Search…" style="width:200px" oninput="filterAdminProducts()"/>
-            <select id="adminCatFilter" class="form-control" style="width:160px" onchange="filterAdminProducts()">
-              <option value="">All Categories</option>
-              <option value="clothing">Clothing</option>
-              <option value="footwear">Footwear</option>
-              <option value="perfumes">Perfumes</option>
-            </select>
-          </div>
-        </div>
-        <div class="stat-cards" id="statCards">
-          <div class="stat-card"><div class="num grad-text" id="statTotal">0</div><div class="lbl">Total Products</div></div>
-          <div class="stat-card"><div class="num grad-text" id="statClothing">0</div><div class="lbl">Clothing</div></div>
-          <div class="stat-card"><div class="num grad-text" id="statFootwear">0</div><div class="lbl">Footwear</div></div>
-          <div class="stat-card"><div class="num grad-text" id="statPerfumes">0</div><div class="lbl">Perfumes</div></div>
-        </div>
-        <div class="admin-product-grid" id="adminProductGrid">
-          <p style="color:var(--muted)">Loading…</p>
-        </div>
-      </div>
-
-      <!-- ADD/EDIT PRODUCT PANEL -->
-      <div class="admin-panel" id="panel-add">
-        <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:28px" id="formTitle">Add New <span class="grad-text">Product</span></h2>
-        <div class="admin-form-card">
-          <input type="hidden" id="editId"/>
-          <div class="form-group">
-            <label>Product Image(s)</label>
-            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imgInput').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
-              <div style="font-size:2rem;margin-bottom:8px">🖼️</div>
-              <p><strong>Click to upload</strong> or drag &amp; drop</p>
-              <p style="font-size:0.78rem;margin-top:4px">PNG, JPG, WEBP up to 10MB. Multiple allowed.</p>
-            </div>
-            <div class="upload-progress" id="uploadProgress"><div class="upload-progress-bar" id="uploadProgressBar"></div></div>
-            <input type="file" id="imgInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)"/>
-            <div class="img-preview-wrap" id="imgPreviewWrap"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Product Name *</label>
-              <input id="pName" type="text" class="form-control" placeholder="e.g. Classic White Tee"/>
-            </div>
-            <div class="form-group">
-              <label>Price (GH₵) *</label>
-              <input id="pPrice" type="number" class="form-control" placeholder="e.g. 85"/>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Category *</label>
-              <select id="pCat" class="form-control">
-                <option value="">Select…</option>
+        <!-- PRODUCTS TAB -->
+        <div class="admin-panel active" id="panel-products">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+            <h2 style="font-family:var(--fd);font-size:1.6rem">All <span class="grad-text">Products</span></h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input id="adminSearch" type="text" class="form-control" placeholder="🔍 Search…" style="width:140px;font-size:0.8rem" oninput="filterAdmin()"/>
+              <select id="adminCatFilter" class="form-control" style="width:120px;font-size:0.8rem" onchange="filterAdmin()">
+                <option value="">All Cats</option>
                 <option value="clothing">Clothing</option>
                 <option value="footwear">Footwear</option>
                 <option value="perfumes">Perfumes</option>
               </select>
             </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stat-cards" id="statCards">
+            <div class="stat-card"><div class="num grad-text" id="sTotal">0</div><div class="lbl">Total</div></div>
+            <div class="stat-card"><div class="num grad-text" id="sClo">0</div><div class="lbl">Clothing</div></div>
+            <div class="stat-card"><div class="num grad-text" id="sFoo">0</div><div class="lbl">Footwear</div></div>
+            <div class="stat-card"><div class="num grad-text" id="sPer">0</div><div class="lbl">Perfumes</div></div>
+          </div>
+
+          <div class="admin-grid" id="adminGrid">
+            <div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:0.82rem">Loading…</div>
+          </div>
+        </div>
+
+        <!-- ADD PRODUCT TAB -->
+        <div class="admin-panel" id="panel-add">
+          <h2 style="font-family:var(--fd);font-size:1.6rem;margin-bottom:16px">Add <span class="grad-text">Product</span></h2>
+          <div class="admin-form-card">
+            <input type="hidden" id="editId"/>
+
+            <!-- Image Upload -->
             <div class="form-group">
-              <label>Badge (optional)</label>
-              <input id="pBadge" type="text" class="form-control" placeholder="e.g. New, Hot, Sale"/>
+              <label>Product Image(s)</label>
+              <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imgInput').click()"
+                ondragover="event.preventDefault();this.classList.add('dragover')"
+                ondrop="event.preventDefault();this.classList.remove('dragover');handleFiles(event.dataTransfer.files)">
+                <div style="font-size:1.8rem;margin-bottom:6px">🖼️</div>
+                <p><strong>Tap to upload</strong> or drag & drop</p>
+                <p style="font-size:0.72rem;margin-top:3px">PNG, JPG, WEBP — multiple allowed</p>
+              </div>
+              <div class="upload-progress" id="upProg"><div class="upload-bar" id="upBar"></div></div>
+              <input type="file" id="imgInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)"/>
+              <div class="img-previews" id="imgPreviews"></div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Sizes (comma-separated)</label>
-            <input id="pSizes" type="text" class="form-control" placeholder="S, M, L, XL, 2XL, 3XL"/>
-          </div>
-          <div class="form-group">
-            <label>Colour Palettes</label>
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap" id="colorBuilder">
-              <div class="color-palette-builder" id="colorSwatches"></div>
-              <div style="display:flex;align-items:center;gap:8px">
-                <input type="color" id="colorPicker" value="#ffffff" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:none"/>
-                <button onclick="addColor()" class="btn-outline" style="padding:7px 14px;font-size:0.8rem">+ Add</button>
+
+            <!-- Name & Price -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="form-group">
+                <label>Product Name *</label>
+                <input id="pName" type="text" class="form-control" placeholder="e.g. White Tee"/>
+              </div>
+              <div class="form-group">
+                <label>Price (GH₵) *</label>
+                <input id="pPrice" type="number" class="form-control" placeholder="85"/>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Description (optional)</label>
-            <textarea id="pDesc" class="form-control" rows="3" placeholder="Short product description…"></textarea>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:8px">
-            <button class="btn-primary" onclick="saveProduct()" id="saveBtn"><span>💾 Save Product</span></button>
-            <button class="btn-outline" onclick="clearForm()" style="padding:14px 24px">Clear</button>
-          </div>
-          <div id="formMsg" style="margin-top:12px;font-size:0.88rem;display:none"></div>
-        </div>
-      </div>
 
-      <!-- SETTINGS PANEL -->
-      <div class="admin-panel" id="panel-settings">
-        <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:28px">Store <span class="grad-text">Settings</span></h2>
-        <div class="settings-grid">
-          <div class="settings-section">
-            <h3>🔐 Change Password</h3>
-            <div class="form-group"><label>Current Password</label><input id="sCurPw" type="password" class="form-control" placeholder="••••••••"/></div>
-            <div class="form-group"><label>New Password</label><input id="sNewPw" type="password" class="form-control" placeholder="••••••••"/></div>
-            <div class="form-group"><label>Confirm New Password</label><input id="sConfPw" type="password" class="form-control" placeholder="••••••••"/></div>
-            <button class="btn-primary" onclick="changePassword()"><span>Update Password</span></button>
-            <div id="pwMsg" style="font-size:0.82rem;margin-top:10px"></div>
-          </div>
-
-          <div class="settings-section">
-            <h3>🏪 Store Info</h3>
-            <div class="form-group"><label>Store Name</label><input id="sName" type="text" class="form-control" value="LIN's — Authentic Fashion Style"/></div>
-            <div class="form-group"><label>Location</label><input id="sLoc" type="text" class="form-control" value="University of Cape Coast Campus"/></div>
-            <div class="form-group"><label>Phone 1</label><input id="sPhone1" type="text" class="form-control" value="+233595070658"/></div>
-            <div class="form-group"><label>Phone 2</label><input id="sPhone2" type="text" class="form-control" value="+233241277167"/></div>
-            <div class="form-group"><label>Email</label><input id="sEmail" type="email" class="form-control" value="lindasarkwahstar@gmail.com"/></div>
-            <button class="btn-primary" onclick="saveSettings()"><span>Save Settings</span></button>
-            <div id="settMsg" style="font-size:0.82rem;margin-top:10px"></div>
-          </div>
-
-          <div class="settings-section">
-            <h3>🏷️ Categories</h3>
-            <div id="catList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,255,135,0.06);border-radius:8px;border:1px solid rgba(0,255,135,0.15)"><span>Clothing</span><span style="color:var(--muted);font-size:0.75rem">Built-in</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,255,135,0.06);border-radius:8px;border:1px solid rgba(0,255,135,0.15)"><span>Footwear</span><span style="color:var(--muted);font-size:0.75rem">Built-in</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,255,135,0.06);border-radius:8px;border:1px solid rgba(0,255,135,0.15)"><span>Perfumes</span><span style="color:var(--muted);font-size:0.75rem">Built-in</span></div>
+            <!-- Category & Badge -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="form-group">
+                <label>Category *</label>
+                <select id="pCat" class="form-control">
+                  <option value="">Select…</option>
+                  <option value="clothing">Clothing</option>
+                  <option value="footwear">Footwear</option>
+                  <option value="perfumes">Perfumes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Badge (optional)</label>
+                <input id="pBadge" type="text" class="form-control" placeholder="New / Hot / Sale"/>
+              </div>
             </div>
-            <div style="display:flex;gap:8px">
-              <input id="newCat" type="text" class="form-control" placeholder="New category name…"/>
-              <button class="btn-primary" onclick="addCategory()" style="padding:12px 18px;white-space:nowrap"><span>+ Add</span></button>
-            </div>
-            <div id="catMsg" style="font-size:0.82rem;margin-top:10px"></div>
-          </div>
 
-          <div class="settings-section">
-            <h3>🖼️ Hero Image</h3>
-            <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px">Upload a new hero image for the homepage.</p>
-            <div class="upload-zone" onclick="document.getElementById('heroImgInput').click()" style="padding:24px">
-              <p><strong>Click to upload</strong> hero image</p>
+            <!-- Sizes -->
+            <div class="form-group">
+              <label>Sizes (comma-separated)</label>
+              <input id="pSizes" type="text" class="form-control" placeholder="S, M, L, XL, 2XL, 3XL"/>
             </div>
-            <input type="file" id="heroImgInput" accept="image/*" style="display:none" onchange="uploadHeroImage(this.files[0])"/>
-            <div id="heroPreview" style="margin-top:12px;border-radius:10px;overflow:hidden;display:none"><img id="heroPreviewImg" style="width:100%;border-radius:10px"/></div>
-            <div id="heroMsg" style="font-size:0.82rem;margin-top:10px"></div>
+
+            <!-- Colours -->
+            <div class="form-group">
+              <label>Colour Palette</label>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <div class="color-builder" id="colorSwatches"></div>
+                <input type="color" id="colorPicker" value="#ffffff" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;background:none"/>
+                <button onclick="addColor()" class="btn btn-ghost" style="padding:6px 12px;font-size:0.72rem">+ Add</button>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label>Description (optional)</label>
+              <textarea id="pDesc" class="form-control" rows="3" placeholder="Short product description…"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-green" onclick="saveProduct()" id="saveBtn">💾 Save Product</button>
+              <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+            </div>
+            <div id="formMsg" style="font-size:0.78rem;margin-top:10px;display:none"></div>
           </div>
         </div>
-      </div>
 
+        <!-- SETTINGS TAB -->
+        <div class="admin-panel" id="panel-settings">
+          <h2 style="font-family:var(--fd);font-size:1.6rem;margin-bottom:16px">Store <span class="grad-text">Settings</span></h2>
+          <div class="settings-grid">
+
+            <!-- Change Password -->
+            <div class="settings-section">
+              <h3>🔐 Change Password</h3>
+              <div class="form-group"><label>Current Password</label><input id="sCurPw" type="password" class="form-control" placeholder="••••••••"/></div>
+              <div class="form-group"><label>New Password</label><input id="sNewPw" type="password" class="form-control" placeholder="••••••••"/></div>
+              <div class="form-group"><label>Confirm</label><input id="sConfPw" type="password" class="form-control" placeholder="••••••••"/></div>
+              <button class="btn btn-green" onclick="changePassword()">Update Password</button>
+              <div id="pwMsg" style="font-size:0.75rem;margin-top:8px"></div>
+            </div>
+
+            <!-- Store Info -->
+            <div class="settings-section">
+              <h3>🏪 Store Info</h3>
+              <div class="form-group"><label>Store Name</label><input id="sName" type="text" class="form-control" value="LIN's — Authentic Fashion Style"/></div>
+              <div class="form-group"><label>Location</label><input id="sLoc" type="text" class="form-control" value="University of Cape Coast Campus"/></div>
+              <div class="form-group"><label>Phone 1</label><input id="sPhone1" type="text" class="form-control" value="+233595070658"/></div>
+              <div class="form-group"><label>Phone 2</label><input id="sPhone2" type="text" class="form-control" value="+233241277167"/></div>
+              <div class="form-group"><label>Email</label><input id="sEmail" type="email" class="form-control" value="lindasarkwahstar@gmail.com"/></div>
+              <button class="btn btn-green" onclick="saveStoreInfo()">Save Info</button>
+              <div id="infoMsg" style="font-size:0.75rem;margin-top:8px"></div>
+            </div>
+
+            <!-- Hero Image -->
+            <div class="settings-section">
+              <h3>🖼️ Hero Image</h3>
+              <p style="font-size:0.78rem;color:var(--muted);margin-bottom:12px">Upload a new homepage hero image.</p>
+              <div class="upload-zone" onclick="document.getElementById('heroInput').click()" style="padding:18px">
+                <p style="font-size:0.8rem"><strong>Tap to upload</strong> hero image</p>
+              </div>
+              <input type="file" id="heroInput" accept="image/*" style="display:none" onchange="uploadHero(this.files[0])"/>
+              <div id="heroPreview" style="display:none;margin-top:10px;border-radius:8px;overflow:hidden">
+                <img id="heroPreviewImg" style="width:100%;max-height:140px;object-fit:cover"/>
+              </div>
+              <div id="heroMsg" style="font-size:0.75rem;margin-top:8px"></div>
+            </div>
+
+            <!-- Categories -->
+            <div class="settings-section">
+              <h3>🏷️ Categories</h3>
+              <div id="catList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,255,135,0.06);border-radius:8px;font-size:0.82rem"><span>Clothing</span><span style="color:var(--muted);font-size:0.68rem">Built-in</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,255,135,0.06);border-radius:8px;font-size:0.82rem"><span>Footwear</span><span style="color:var(--muted);font-size:0.68rem">Built-in</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,255,135,0.06);border-radius:8px;font-size:0.82rem"><span>Perfumes</span><span style="color:var(--muted);font-size:0.68rem">Built-in</span></div>
+              </div>
+              <div style="display:flex;gap:8px">
+                <input id="newCat" type="text" class="form-control" placeholder="New category…" style="font-size:0.82rem"/>
+                <button class="btn btn-green" onclick="addCategory()" style="white-space:nowrap;padding:10px 14px;font-size:0.75rem">+ Add</button>
+              </div>
+              <div id="catMsg" style="font-size:0.75rem;margin-top:8px"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Edit Modal -->
-<div class="modal-overlay admin-modal" id="editModal" onclick="closeEditModal(event)">
-  <div class="modal" style="position:relative;grid-template-columns:1fr">
-    <button class="modal-close" onclick="document.getElementById('editModal').classList.remove('open')">✕</button>
-    <div class="modal-body" style="padding:36px">
-      <h3 style="font-size:1.4rem;margin-bottom:24px">Edit <span class="grad-text">Product</span></h3>
-      <input type="hidden" id="editModalId"/>
-      <div class="form-group"><label>Product Name</label><input id="emName" type="text" class="form-control"/></div>
-      <div class="form-row">
-        <div class="form-group"><label>Price (GH₵)</label><input id="emPrice" type="number" class="form-control"/></div>
-        <div class="form-group"><label>Category</label>
-          <select id="emCat" class="form-control">
-            <option value="clothing">Clothing</option>
-            <option value="footwear">Footwear</option>
-            <option value="perfumes">Perfumes</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group"><label>Sizes</label><input id="emSizes" type="text" class="form-control"/></div>
-      <div class="form-group"><label>Badge</label><input id="emBadge" type="text" class="form-control"/></div>
-      <div class="form-group"><label>Description</label><textarea id="emDesc" class="form-control" rows="3"></textarea></div>
-      <div class="form-group">
-        <label>Replace Image</label>
-        <div class="upload-zone" onclick="document.getElementById('emImgInput').click()" style="padding:20px">
-          <p style="font-size:0.85rem"><strong>Click to upload</strong> a new image</p>
-        </div>
-        <input type="file" id="emImgInput" accept="image/*" style="display:none" onchange="handleEditImage(this.files[0])"/>
-        <div id="emImgPreview" style="margin-top:10px;border-radius:8px;overflow:hidden;display:none"><img id="emImgPreviewImg" style="width:100%;max-height:180px;object-fit:cover"/></div>
-        <div id="emUploadProgress" style="height:4px;background:rgba(0,255,135,0.1);border-radius:2px;margin-top:8px;display:none"><div id="emProgressBar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;transition:width 0.3s"></div></div>
-      </div>
-      <div style="display:flex;gap:12px;margin-top:8px">
-        <button class="btn-primary" onclick="updateProduct()"><span>💾 Update</span></button>
-        <button class="btn-outline" onclick="document.getElementById('editModal').classList.remove('open')" style="padding:12px 20px">Cancel</button>
-      </div>
-      <div id="emMsg" style="font-size:0.85rem;margin-top:10px"></div>
+<!-- EDIT MODAL -->
+<div class="edit-modal-overlay" id="editModal" onclick="closeEditOutside(event)">
+  <div class="edit-modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="font-size:1rem;font-weight:700">Edit <span class="grad-text">Product</span></h3>
+      <button onclick="closeEdit()" style="background:rgba(255,255,255,0.08);border:none;color:var(--text);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:0.9rem">✕</button>
     </div>
+    <input type="hidden" id="emId"/>
+    <div class="form-group"><label>Product Name</label><input id="emName" type="text" class="form-control"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Price (GH₵)</label><input id="emPrice" type="number" class="form-control"/></div>
+      <div class="form-group"><label>Category</label>
+        <select id="emCat" class="form-control">
+          <option value="clothing">Clothing</option>
+          <option value="footwear">Footwear</option>
+          <option value="perfumes">Perfumes</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Sizes</label><input id="emSizes" type="text" class="form-control"/></div>
+    <div class="form-group"><label>Badge</label><input id="emBadge" type="text" class="form-control"/></div>
+    <div class="form-group"><label>Description</label><textarea id="emDesc" class="form-control" rows="2"></textarea></div>
+    <div class="form-group">
+      <label>Replace Image</label>
+      <div class="upload-zone" onclick="document.getElementById('emImgInput').click()" style="padding:14px">
+        <p style="font-size:0.78rem"><strong>Tap to upload</strong> new image</p>
+      </div>
+      <input type="file" id="emImgInput" accept="image/*" style="display:none" onchange="handleEditImg(this.files[0])"/>
+      <div id="emImgPrev" style="display:none;margin-top:8px;border-radius:8px;overflow:hidden"><img id="emImgPrevImg" style="width:100%;max-height:120px;object-fit:cover"/></div>
+      <div class="upload-progress" id="emProg" style="margin-top:6px"><div class="upload-bar" id="emBar"></div></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-green" onclick="updateProduct()" style="flex:1">💾 Update</button>
+      <button class="btn btn-ghost" onclick="closeEdit()" style="padding:11px 16px">Cancel</button>
+    </div>
+    <div id="emMsg" style="font-size:0.78rem;margin-top:8px"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE + ADMIN LOGIC -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, orderBy, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-const app = initializeApp({ apiKey:"AIzaSyCv-A9NyGd3DSn9GCdUlNxjK0ZBwPXKa6s", authDomain:"lins-store.firebaseapp.com", projectId:"lins-store", storageBucket:"lins-store.firebasestorage.app", messagingSenderId:"190276558270", appId:"1:190276558270:web:6ac345566c5820e578adef" });
+const app = initializeApp({apiKey:"AIzaSyCv-A9NyGd3DSn9GCdUlNxjK0ZBwPXKa6s",authDomain:"lins-store.firebaseapp.com",projectId:"lins-store",storageBucket:"lins-store.firebasestorage.app",messagingSenderId:"190276558270",appId:"1:190276558270:web:6ac345566c5820e578adef"});
 const auth = getAuth(app);
 const db   = getFirestore(app);
+const CLOUD = 'dweymxtxu', PRESET = 'lins_store';
+const BUILTIN = ['clothing','footwear','perfumes'];
 
-const CLOUD_NAME   = 'dweymxtxu';
-const UPLOAD_PRESET= 'lins_store';
+let allProducts = [], pendingImgs = [], colors = [], editNewImg = null;
 
-// Auth state
+// ── AUTH ──────────────────────────────────────────────────
 onAuthStateChanged(auth, user => {
-  document.getElementById('loadingOverlay').style.display = 'none';
+  document.getElementById('loadingScreen').style.display = 'none';
   if (user) {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminWrap').style.display = 'block';
-    document.getElementById('adminEmail').textContent = user.email;
-    loadProducts();
-    loadCategories();
+    document.getElementById('dashScreen').style.display = 'block';
+    loadProducts(); loadCategories(); loadHeroPreview(); loadStoreInfo();
   } else {
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminWrap').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'block';
+    document.getElementById('dashScreen').style.display = 'none';
   }
 });
 
 window.doLogin = async function() {
   const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPassword').value;
-  const errEl = document.getElementById('loginErr');
-  errEl.style.display = 'none';
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    errEl.textContent = 'Invalid credentials. Please try again.';
-    errEl.style.display = 'block';
-  }
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginErr');
+  err.style.display = 'none';
+  try { await signInWithEmailAndPassword(auth, email, pass); }
+  catch(e) { err.textContent = 'Invalid email or password.'; err.style.display = 'block'; }
 };
+window.doLogout = async function() { if(confirm('Log out?')) await signOut(auth); };
 
-window.doLogout = async function() {
-  if (confirm('Log out?')) await signOut(auth);
-};
-
-// Products
-let allProducts = [];
-let editNewImageUrl = null;
-
+// ── PRODUCTS ──────────────────────────────────────────────
 async function loadProducts() {
-  const grid = document.getElementById('adminProductGrid');
-  grid.innerHTML = '<p style="color:var(--muted)">Loading…</p>';
+  const grid = document.getElementById('adminGrid');
   try {
     const snap = await getDocs(query(collection(db,'products'), orderBy('createdAt','desc')));
-    allProducts = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    renderStats();
-    renderAdminGrid(allProducts);
-  } catch(e) { grid.innerHTML = '<p style="color:var(--muted)">Error loading products.</p>'; }
+    allProducts = snap.docs.map(d => ({id:d.id,...d.data()}));
+    updateStats(); renderAdmin(allProducts);
+  } catch(e) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:0.82rem">No products yet.</div>'; }
 }
 
-function renderStats() {
-  document.getElementById('statTotal').textContent = allProducts.length;
-  document.getElementById('statClothing').textContent = allProducts.filter(p=>(p.category||'').toLowerCase()==='clothing').length;
-  document.getElementById('statFootwear').textContent = allProducts.filter(p=>(p.category||'').toLowerCase()==='footwear').length;
-  document.getElementById('statPerfumes').textContent = allProducts.filter(p=>(p.category||'').toLowerCase()==='perfumes').length;
+function updateStats() {
+  document.getElementById('sTotal').textContent = allProducts.length;
+  document.getElementById('sClo').textContent   = allProducts.filter(p=>(p.category||'').toLowerCase()==='clothing').length;
+  document.getElementById('sFoo').textContent   = allProducts.filter(p=>(p.category||'').toLowerCase()==='footwear').length;
+  document.getElementById('sPer').textContent   = allProducts.filter(p=>(p.category||'').toLowerCase()==='perfumes').length;
 }
 
-function renderAdminGrid(products) {
-  const grid = document.getElementById('adminProductGrid');
-  if (!products.length) { grid.innerHTML = '<p style="color:var(--muted);padding:40px 0">No products yet. Add your first product →</p>'; return; }
+function renderAdmin(list) {
+  const grid = document.getElementById('adminGrid');
+  if (!list.length) { grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:0.82rem">No products found.</div>'; return; }
   grid.innerHTML = '';
-  products.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'admin-product-card';
-    card.innerHTML = `
-      ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy"/>` : `<div style="aspect-ratio:1;background:var(--dark);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(0,255,135,0.2)">${catIcon(p.category)}</div>`}
-      <div class="admin-product-card-body">
+  list.forEach(p => {
+    const card = document.createElement('div'); card.className = 'admin-product-card';
+    const img = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy"/>` : `<div class="admin-product-ph">${icon(p.category)}</div>`;
+    card.innerHTML = `${img}
+      <div class="admin-card-body">
         <span class="badge-pill badge-${(p.category||'').toLowerCase()}">${p.category||'—'}</span>
-        <h4 style="margin-top:8px">${p.name}</h4>
-        <p>GH₵ ${p.price} ${p.badge?`· <em>${p.badge}</em>`:''}</p>
-        <p style="font-size:0.75rem;margin-top:4px;color:var(--muted)">${(p.sizes||[]).join(', ')||'No sizes'}</p>
-        <div class="admin-product-actions">
-          <button class="btn-edit" onclick='openEditModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>✏️ Edit</button>
-          <button class="btn-delete" onclick="deleteProduct('${p.id}','${p.name}')">🗑 Delete</button>
+        <h4 style="margin-top:6px">${p.name}</h4>
+        <p>GH₵ ${p.price}${p.badge?' · '+p.badge:''}</p>
+        <div class="admin-card-actions">
+          <button class="btn-edit" onclick='openEdit(${JSON.stringify(p).replace(/'/g,"&#39;")})'>✏️ Edit</button>
+          <button class="btn-del" onclick="delProduct('${p.id}','${p.name}')">🗑 Del</button>
         </div>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-window.filterAdminProducts = function() {
-  const search = (document.getElementById('adminSearch').value||'').toLowerCase();
-  const cat = document.getElementById('adminCatFilter').value;
-  const filtered = allProducts.filter(p => {
-    const ms = !search || p.name.toLowerCase().includes(search);
-    const mc = !cat || (p.category||'').toLowerCase()===cat;
-    return ms && mc;
-  });
-  renderAdminGrid(filtered);
+window.filterAdmin = function() {
+  const s = (document.getElementById('adminSearch').value||'').toLowerCase();
+  const c = document.getElementById('adminCatFilter').value;
+  renderAdmin(allProducts.filter(p => (!s||p.name.toLowerCase().includes(s)) && (!c||(p.category||'').toLowerCase()===c)));
 };
 
-function catIcon(c){ return {clothing:'👕',footwear:'👟',perfumes:'🌸'}[(c||'').toLowerCase()]||'🛍'; }
+function icon(c){return{clothing:'👕',footwear:'👟',perfumes:'🌸'}[(c||'').toLowerCase()]||'🛍';}
 
-// IMAGE UPLOAD to Cloudinary
-async function uploadToCloudinary(file, onProgress) {
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('upload_preset', UPLOAD_PRESET);
-  fd.append('folder', 'lins-store');
-  return new Promise((resolve, reject) => {
+// ── CLOUDINARY ────────────────────────────────────────────
+async function uploadCDN(file, onPct) {
+  const fd = new FormData(); fd.append('file',file); fd.append('upload_preset',PRESET); fd.append('folder','lins-store');
+  return new Promise((res,rej)=>{
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`);
-    if (onProgress) xhr.upload.onprogress = e => { if(e.lengthComputable) onProgress(e.loaded/e.total*100); };
-    xhr.onload = () => { const res=JSON.parse(xhr.responseText); res.secure_url ? resolve(res.secure_url) : reject(res); };
-    xhr.onerror = reject;
-    xhr.send(fd);
+    xhr.open('POST',`https://api.cloudinary.com/v1_1/${CLOUD}/image/upload`);
+    if(onPct) xhr.upload.onprogress = e => { if(e.lengthComputable) onPct(e.loaded/e.total*100); };
+    xhr.onload = ()=>{ const r=JSON.parse(xhr.responseText); r.secure_url?res(r.secure_url):rej(r); };
+    xhr.onerror = rej; xhr.send(fd);
   });
 }
 
-// Handle file selection
-let pendingImageUrls = [];
 window.handleFiles = async function(files) {
   if (!files.length) return;
-  const zone = document.getElementById('uploadZone');
-  const prog = document.getElementById('uploadProgress');
-  const bar  = document.getElementById('uploadProgressBar');
-  const wrap = document.getElementById('imgPreviewWrap');
-  prog.style.display = 'block';
-  zone.style.pointerEvents = 'none'; zone.style.opacity = '0.6';
-  for (const file of files) {
+  const zone=document.getElementById('uploadZone'), prog=document.getElementById('upProg'), bar=document.getElementById('upBar'), prev=document.getElementById('imgPreviews');
+  prog.style.display='block'; zone.style.opacity='0.5'; zone.style.pointerEvents='none';
+  for (const f of files) {
     try {
-      const url = await uploadToCloudinary(file, pct => { bar.style.width = pct+'%'; });
-      pendingImageUrls.push(url);
-      const item = document.createElement('div');
-      item.className = 'img-preview-item';
-      const idx = pendingImageUrls.length - 1;
-      item.innerHTML = `<img src="${url}"/><button class="del-img" onclick="removeImg(${idx},this.parentElement)">✕</button>`;
-      wrap.appendChild(item);
-    } catch(e) { showToast('Upload failed: '+e.message,'error'); }
+      const url = await uploadCDN(f, pct=>bar.style.width=pct+'%');
+      pendingImgs.push(url);
+      const idx=pendingImgs.length-1;
+      const item=document.createElement('div'); item.className='img-prev-item';
+      item.innerHTML=`<img src="${url}"/><button class="img-prev-del" onclick="removeImg(${idx},this.parentElement)">✕</button>`;
+      prev.appendChild(item);
+    } catch(e){ showToast('Upload failed','error'); }
   }
-  prog.style.display = 'none'; bar.style.width = '0';
-  zone.style.pointerEvents = ''; zone.style.opacity = '';
+  prog.style.display='none'; bar.style.width='0'; zone.style.opacity=''; zone.style.pointerEvents='';
 };
+window.removeImg = function(idx,el){ pendingImgs[idx]=null; el.remove(); };
 
-window.removeImg = function(idx, el) { pendingImageUrls[idx]=null; el.remove(); };
-window.handleDragOver = function(e){ e.preventDefault(); e.currentTarget.classList.add('dragover'); };
-window.handleDrop = function(e){ e.preventDefault(); e.currentTarget.classList.remove('dragover'); handleFiles(e.dataTransfer.files); };
-
-// Color builder
-let colors = [];
+// ── COLOURS ───────────────────────────────────────────────
 window.addColor = function() {
   const c = document.getElementById('colorPicker').value;
-  if (!colors.includes(c)) { colors.push(c); renderColors(); }
+  if (!colors.includes(c)) { colors.push(c); renderSwatches(); }
 };
-function renderColors() {
-  const sw = document.getElementById('colorSwatches');
-  sw.innerHTML = colors.map((c,i) => `<div class="palette-item"><div class="color-dot-lg" style="background:${c};width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,0.2)"></div><button class="remove-color" onclick="removeColor(${i})">✕</button></div>`).join('');
+function renderSwatches() {
+  document.getElementById('colorSwatches').innerHTML = colors.map((c,i)=>
+    `<div class="color-swatch"><div class="color-swatch-dot" style="background:${c}"></div>
+    <button class="color-swatch-rm" onclick="removeColor(${i})">✕</button></div>`).join('');
 }
-window.removeColor = function(i){ colors.splice(i,1); renderColors(); };
+window.removeColor = function(i){ colors.splice(i,1); renderSwatches(); };
 
-// Save product
+// ── SAVE PRODUCT ──────────────────────────────────────────
 window.saveProduct = async function() {
-  const name  = document.getElementById('pName').value.trim();
-  const price = document.getElementById('pPrice').value.trim();
-  const cat   = document.getElementById('pCat').value;
-  const badge = document.getElementById('pBadge').value.trim();
-  const sizes = document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const desc  = document.getElementById('pDesc').value.trim();
-  const msgEl = document.getElementById('formMsg');
-  if (!name||!price||!cat) { showMsg(msgEl,'Please fill in Name, Price and Category.','error'); return; }
-  const imgs = pendingImageUrls.filter(Boolean);
-  const btn = document.getElementById('saveBtn');
-  btn.innerHTML = '<span>Saving…</span>'; btn.disabled = true;
+  const name=document.getElementById('pName').value.trim();
+  const price=document.getElementById('pPrice').value.trim();
+  const cat=document.getElementById('pCat').value;
+  const badge=document.getElementById('pBadge').value.trim();
+  const sizes=document.getElementById('pSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const desc=document.getElementById('pDesc').value.trim();
+  const msgEl=document.getElementById('formMsg');
+  if (!name||!price||!cat){ showMsg(msgEl,'Please fill Name, Price and Category.','error'); return; }
+  const imgs=pendingImgs.filter(Boolean);
+  const btn=document.getElementById('saveBtn'); btn.textContent='Saving…'; btn.disabled=true;
   try {
-    await addDoc(collection(db,'products'), {
-      name, price: parseFloat(price), category: cat, badge, sizes, colors, description: desc,
-      imageUrl: imgs[0]||'', images: imgs, createdAt: serverTimestamp()
-    });
-    showToast('Product added successfully! ✅','success');
-    clearForm();
-    loadProducts();
-    switchTab('products');
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
-  btn.innerHTML = '<span>💾 Save Product</span>'; btn.disabled = false;
+    await addDoc(collection(db,'products'),{name,price:parseFloat(price),category:cat,badge,sizes,colors,description:desc,imageUrl:imgs[0]||'',images:imgs,createdAt:serverTimestamp()});
+    showToast('Product added! ✅'); clearForm(); loadProducts(); switchTab('products');
+  } catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
+  btn.textContent='💾 Save Product'; btn.disabled=false;
 };
 
 window.clearForm = function() {
   ['pName','pPrice','pBadge','pSizes','pDesc'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('pCat').value='';
-  pendingImageUrls=[]; colors=[];
-  document.getElementById('imgPreviewWrap').innerHTML='';
-  renderColors();
-  document.getElementById('editId').value='';
-  document.getElementById('formTitle').innerHTML='Add New <span class="grad-text">Product</span>';
+  pendingImgs=[]; colors=[];
+  document.getElementById('imgPreviews').innerHTML='';
+  renderSwatches();
 };
 
-// Delete
-window.deleteProduct = async function(id, name) {
-  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
-  try { await deleteDoc(doc(db,'products',id)); showToast('Product deleted.','success'); loadProducts(); }
-  catch(e) { showToast('Error: '+e.message,'error'); }
+// ── DELETE ────────────────────────────────────────────────
+window.delProduct = async function(id,name) {
+  if (!confirm(`Delete "${name}"? Cannot be undone.`)) return;
+  try { await deleteDoc(doc(db,'products',id)); showToast('Deleted.'); loadProducts(); }
+  catch(e){ showToast('Error: '+e.message,'error'); }
 };
 
-// Edit Modal
-window.openEditModal = function(p) {
-  editNewImageUrl = null;
-  document.getElementById('editModalId').value = p.id;
-  document.getElementById('emName').value = p.name;
-  document.getElementById('emPrice').value = p.price;
-  document.getElementById('emCat').value = (p.category||'').toLowerCase();
-  document.getElementById('emSizes').value = (p.sizes||[]).join(', ');
-  document.getElementById('emBadge').value = p.badge||'';
-  document.getElementById('emDesc').value = p.description||'';
-  document.getElementById('emImgPreview').style.display = p.imageUrl ? 'block' : 'none';
-  if (p.imageUrl) document.getElementById('emImgPreviewImg').src = p.imageUrl;
-  document.getElementById('emMsg').textContent = '';
+// ── EDIT MODAL ────────────────────────────────────────────
+window.openEdit = function(p) {
+  editNewImg=null;
+  document.getElementById('emId').value=p.id;
+  document.getElementById('emName').value=p.name;
+  document.getElementById('emPrice').value=p.price;
+  document.getElementById('emCat').value=(p.category||'').toLowerCase();
+  document.getElementById('emSizes').value=(p.sizes||[]).join(', ');
+  document.getElementById('emBadge').value=p.badge||'';
+  document.getElementById('emDesc').value=p.description||'';
+  document.getElementById('emImgPrev').style.display=p.imageUrl?'block':'none';
+  if(p.imageUrl) document.getElementById('emImgPrevImg').src=p.imageUrl;
+  document.getElementById('emMsg').textContent='';
   document.getElementById('editModal').classList.add('open');
 };
+window.closeEdit=function(){document.getElementById('editModal').classList.remove('open');};
+window.closeEditOutside=function(e){if(e.target.id==='editModal')closeEdit();};
 
-window.closeEditModal = function(e){ if(e.target.id==='editModal') document.getElementById('editModal').classList.remove('open'); };
-
-window.handleEditImage = async function(file) {
-  const prog = document.getElementById('emUploadProgress');
-  const bar  = document.getElementById('emProgressBar');
-  prog.style.display = 'block';
+window.handleEditImg = async function(file) {
+  const prog=document.getElementById('emProg'),bar=document.getElementById('emBar'); prog.style.display='block';
   try {
-    editNewImageUrl = await uploadToCloudinary(file, pct => bar.style.width=pct+'%');
-    document.getElementById('emImgPreviewImg').src = editNewImageUrl;
-    document.getElementById('emImgPreview').style.display = 'block';
-  } catch(e) { showToast('Upload error','error'); }
-  prog.style.display = 'none'; bar.style.width = '0';
+    editNewImg=await uploadCDN(file,pct=>bar.style.width=pct+'%');
+    document.getElementById('emImgPrevImg').src=editNewImg;
+    document.getElementById('emImgPrev').style.display='block';
+  } catch(e){ showToast('Upload error','error'); }
+  prog.style.display='none'; bar.style.width='0';
 };
 
 window.updateProduct = async function() {
-  const id    = document.getElementById('editModalId').value;
-  const name  = document.getElementById('emName').value.trim();
-  const price = document.getElementById('emPrice').value;
-  const cat   = document.getElementById('emCat').value;
-  const sizes = document.getElementById('emSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const badge = document.getElementById('emBadge').value.trim();
-  const desc  = document.getElementById('emDesc').value.trim();
-  const msgEl = document.getElementById('emMsg');
-  if (!name||!price) { showMsg(msgEl,'Name and Price required.','error'); return; }
-  const update = { name, price:parseFloat(price), category:cat, sizes, badge, description:desc };
-  if (editNewImageUrl) update.imageUrl = editNewImageUrl;
-  try {
-    await updateDoc(doc(db,'products',id), update);
-    showToast('Product updated! ✅','success');
-    document.getElementById('editModal').classList.remove('open');
-    loadProducts();
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
+  const id=document.getElementById('emId').value;
+  const name=document.getElementById('emName').value.trim();
+  const price=document.getElementById('emPrice').value;
+  const cat=document.getElementById('emCat').value;
+  const sizes=document.getElementById('emSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const badge=document.getElementById('emBadge').value.trim();
+  const desc=document.getElementById('emDesc').value.trim();
+  const msgEl=document.getElementById('emMsg');
+  if (!name||!price){ showMsg(msgEl,'Name and Price required.','error'); return; }
+  const update={name,price:parseFloat(price),category:cat,sizes,badge,description:desc};
+  if(editNewImg) update.imageUrl=editNewImg;
+  try { await updateDoc(doc(db,'products',id),update); showToast('Updated! ✅'); closeEdit(); loadProducts(); }
+  catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
 };
 
-// Settings
-window.changePassword = async function() {
-  const cur  = document.getElementById('sCurPw').value;
-  const np   = document.getElementById('sNewPw').value;
-  const conf = document.getElementById('sConfPw').value;
-  const msgEl = document.getElementById('pwMsg');
-  if (np!==conf) { showMsg(msgEl,'Passwords do not match.','error'); return; }
-  if (np.length<6) { showMsg(msgEl,'Password must be at least 6 characters.','error'); return; }
-  try {
-    const user = auth.currentUser;
-    const cred = EmailAuthProvider.credential(user.email, cur);
-    await reauthenticateWithCredential(user, cred);
-    await updatePassword(user, np);
-    showMsg(msgEl,'Password updated successfully! ✅','success');
-    ['sCurPw','sNewPw','sConfPw'].forEach(id=>document.getElementById(id).value='');
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
-};
-
-window.saveSettings = async function() {
-  const name  = document.getElementById('sName').value.trim();
-  const loc   = document.getElementById('sLoc').value.trim();
-  const phone1= document.getElementById('sPhone1').value.trim();
-  const phone2= document.getElementById('sPhone2').value.trim();
-  const email = document.getElementById('sEmail').value.trim();
-  const msgEl = document.getElementById('settMsg');
-  try {
-    await setDoc(doc(db,'settings','store'), { name, location:loc, phone1, phone2, email }, { merge:true });
-    showMsg(msgEl,'Settings saved! ✅','success');
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
-};
-
-// ── CATEGORIES ─────────────────────────────────────────────
-const BUILTIN_CATS = ['clothing','footwear','perfumes'];
-
+// ── CATEGORIES ────────────────────────────────────────────
 async function loadCategories() {
   try {
-    const snap = await getDoc(doc(db,'settings','categories'));
-    const extra = snap.exists() ? (snap.data().list || []) : [];
-    renderCategoryList(extra);
-    populateCategorySelects(extra);
-  } catch(e) {
-    renderCategoryList([]);
-    populateCategorySelects([]);
-  }
+    const snap=await getDoc(doc(db,'settings','categories'));
+    const extras=snap.exists()?(snap.data().list||[]):[];
+    renderCatList(extras); populateCatSelects(extras);
+  } catch(e){ renderCatList([]); populateCatSelects([]); }
 }
-
-function renderCategoryList(extras) {
-  const list = document.getElementById('catList');
-  // Built-in rows
-  list.innerHTML = BUILTIN_CATS.map(c =>
-    `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,255,135,0.06);border-radius:8px;border:1px solid rgba(0,255,135,0.15)">
-       <span style="text-transform:capitalize">${c}</span>
-       <span style="color:var(--muted);font-size:0.75rem">Built-in</span>
-     </div>`
-  ).join('');
-  // Custom rows
-  extras.forEach(c => list.appendChild(buildCatRow(c, extras)));
+function renderCatList(extras) {
+  const list=document.getElementById('catList');
+  list.innerHTML=BUILTIN.map(c=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,255,135,0.06);border-radius:8px;font-size:0.82rem"><span style="text-transform:capitalize">${c}</span><span style="color:var(--muted);font-size:0.68rem">Built-in</span></div>`).join('');
+  extras.forEach(c=>{
+    const row=document.createElement('div'); row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(96,239,255,0.05);border-radius:8px;font-size:0.82rem';
+    row.innerHTML=`<span style="text-transform:capitalize">${c}</span><button onclick="removeCategory('${c}')" style="background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.2);color:#ff4444;padding:3px 8px;border-radius:5px;cursor:pointer;font-size:0.65rem">Remove</button>`;
+    list.appendChild(row);
+  });
 }
-
-function buildCatRow(val, allExtras) {
-  const row = document.createElement('div');
-  row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(96,239,255,0.05);border-radius:8px;border:1px solid rgba(96,239,255,0.15)';
-  row.innerHTML = `<span style="text-transform:capitalize">${val}</span>
-    <button onclick="removeCategory('${val}')" style="background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.2);color:#ff4444;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:0.75rem">Remove</button>`;
-  return row;
+function populateCatSelects(extras) {
+  const all=[...BUILTIN,...extras];
+  const makeOpts=()=>all.map(c=>`<option value="${c.toLowerCase()}" style="text-transform:capitalize">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
+  document.getElementById('pCat').innerHTML='<option value="">Select…</option>'+makeOpts();
+  document.getElementById('emCat').innerHTML=makeOpts();
+  const f=document.getElementById('adminCatFilter');
+  f.innerHTML='<option value="">All Cats</option>'+makeOpts();
 }
-
-function populateCategorySelects(extras) {
-  const allCats = [...BUILTIN_CATS, ...extras];
-  // Main add-product select
-  const pCat = document.getElementById('pCat');
-  pCat.innerHTML = '<option value="">Select…</option>' +
-    allCats.map(c => `<option value="${c.toLowerCase()}" style="text-transform:capitalize">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
-  // Edit modal select
-  const emCat = document.getElementById('emCat');
-  emCat.innerHTML = allCats.map(c => `<option value="${c.toLowerCase()}" style="text-transform:capitalize">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
-  // Admin filter select
-  const adminFilter = document.getElementById('adminCatFilter');
-  adminFilter.innerHTML = '<option value="">All Categories</option>' +
-    allCats.map(c => `<option value="${c.toLowerCase()}" style="text-transform:capitalize">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
-}
-
 window.addCategory = async function() {
-  const val = document.getElementById('newCat').value.trim().toLowerCase();
-  const msgEl = document.getElementById('catMsg');
-  if (!val) return;
-  if (BUILTIN_CATS.includes(val)) { showMsg(msgEl,`"${val}" is already a built-in category.`,'error'); return; }
+  const val=document.getElementById('newCat').value.trim().toLowerCase();
+  const msgEl=document.getElementById('catMsg');
+  if(!val) return;
+  if(BUILTIN.includes(val)){ showMsg(msgEl,`"${val}" is already built-in.`,'error'); return; }
   try {
-    // Load current list
-    const snap = await getDoc(doc(db,'settings','categories'));
-    const existing = snap.exists() ? (snap.data().list || []) : [];
-    if (existing.includes(val)) { showMsg(msgEl,'Category already exists.','error'); return; }
-    const updated = [...existing, val];
-    await setDoc(doc(db,'settings','categories'), { list: updated }, { merge:true });
-    document.getElementById('newCat').value = '';
-    renderCategoryList(updated);
-    populateCategorySelects(updated);
-    showMsg(msgEl, `"${val}" added! It will now appear on the store. ✅`, 'success');
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
+    const snap=await getDoc(doc(db,'settings','categories'));
+    const existing=snap.exists()?(snap.data().list||[]):[];
+    if(existing.includes(val)){ showMsg(msgEl,'Already exists.','error'); return; }
+    const updated=[...existing,val];
+    await setDoc(doc(db,'settings','categories'),{list:updated},{merge:true});
+    document.getElementById('newCat').value='';
+    renderCatList(updated); populateCatSelects(updated);
+    showMsg(msgEl,`"${val}" added! ✅`,'success');
+  } catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
 };
-
 window.removeCategory = async function(val) {
-  if (!confirm(`Remove category "${val}"? Products with this category will still exist but won't match the filter.`)) return;
-  const msgEl = document.getElementById('catMsg');
+  if(!confirm(`Remove "${val}"?`)) return;
+  const msgEl=document.getElementById('catMsg');
   try {
-    const snap = await getDoc(doc(db,'settings','categories'));
-    const existing = snap.exists() ? (snap.data().list || []) : [];
-    const updated = existing.filter(c => c !== val);
-    await setDoc(doc(db,'settings','categories'), { list: updated }, { merge:true });
-    renderCategoryList(updated);
-    populateCategorySelects(updated);
-    showMsg(msgEl, `"${val}" removed. ✅`, 'success');
-  } catch(e) { showMsg(msgEl,'Error: '+e.message,'error'); }
+    const snap=await getDoc(doc(db,'settings','categories'));
+    const updated=(snap.exists()?(snap.data().list||[]):[]).filter(c=>c!==val);
+    await setDoc(doc(db,'settings','categories'),{list:updated},{merge:true});
+    renderCatList(updated); populateCatSelects(updated);
+    showMsg(msgEl,`"${val}" removed.`,'success');
+  } catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
 };
 
-window.uploadHeroImage = async function(file) {
-  if (!file) return;
-  const msgEl = document.getElementById('heroMsg');
-  const zone  = document.querySelector('#panel-settings .upload-zone');
-  showMsg(msgEl, '⏳ Uploading image…', '');
-  if (zone) { zone.style.opacity = '0.5'; zone.style.pointerEvents = 'none'; }
+// ── HERO IMAGE ────────────────────────────────────────────
+async function loadHeroPreview() {
   try {
-    const url = await uploadToCloudinary(file, pct => {
-      showMsg(msgEl, `⏳ Uploading… ${Math.round(pct)}%`, '');
-    });
-    // setDoc creates OR overwrites the document safely — no error if it doesn't exist yet
-    await setDoc(doc(db, 'settings', 'hero'), { imageUrl: url }, { merge: true });
-    document.getElementById('heroPreviewImg').src = url;
-    document.getElementById('heroPreview').style.display = 'block';
-    showMsg(msgEl, '✅ Hero image updated! It will now show on the homepage.', 'success');
-  } catch(e) {
-    showMsg(msgEl, '❌ Upload error: ' + e.message, 'error');
-  } finally {
-    if (zone) { zone.style.opacity = ''; zone.style.pointerEvents = ''; }
-  }
-};
-
-// Load current hero image into the settings preview
-async function loadCurrentHeroPreview() {
-  try {
-    const snap = await getDoc(doc(db, 'settings', 'hero'));
-    if (snap.exists() && snap.data().imageUrl) {
-      document.getElementById('heroPreviewImg').src = snap.data().imageUrl;
-      document.getElementById('heroPreview').style.display = 'block';
-      showMsg(document.getElementById('heroMsg'), 'Current hero image shown above. Upload a new one to replace it.', '');
+    const snap=await getDoc(doc(db,'settings','hero'));
+    if(snap.exists()&&snap.data().imageUrl){
+      document.getElementById('heroPreviewImg').src=snap.data().imageUrl;
+      document.getElementById('heroPreview').style.display='block';
     }
-  } catch(e) { /* no current hero saved yet */ }
+  } catch(e){}
 }
+window.uploadHero = async function(file) {
+  if(!file) return;
+  const msgEl=document.getElementById('heroMsg');
+  showMsg(msgEl,'⏳ Uploading…','');
+  try {
+    const url=await uploadCDN(file,pct=>showMsg(msgEl,`⏳ ${Math.round(pct)}%`,''));
+    await setDoc(doc(db,'settings','hero'),{imageUrl:url},{merge:true});
+    document.getElementById('heroPreviewImg').src=url;
+    document.getElementById('heroPreview').style.display='block';
+    showMsg(msgEl,'✅ Hero image updated!','success');
+  } catch(e){ showMsg(msgEl,'❌ Error: '+e.message,'error'); }
+};
 
-// Helpers
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'), 3500);
+// ── STORE INFO ────────────────────────────────────────────
+async function loadStoreInfo() {
+  try {
+    const snap=await getDoc(doc(db,'settings','store'));
+    if(snap.exists()){
+      const d=snap.data();
+      if(d.name) document.getElementById('sName').value=d.name;
+      if(d.location) document.getElementById('sLoc').value=d.location;
+      if(d.phone1) document.getElementById('sPhone1').value=d.phone1;
+      if(d.phone2) document.getElementById('sPhone2').value=d.phone2;
+      if(d.email) document.getElementById('sEmail').value=d.email;
+    }
+  } catch(e){}
 }
-function showMsg(el, msg, type) {
-  el.textContent = msg;
-  el.style.display = 'block';
-  el.style.color = type==='error'?'#ff4444':type==='success'?'var(--green)':'var(--muted)';
-}
+window.saveStoreInfo = async function() {
+  const msgEl=document.getElementById('infoMsg');
+  try {
+    await setDoc(doc(db,'settings','store'),{
+      name:document.getElementById('sName').value.trim(),
+      location:document.getElementById('sLoc').value.trim(),
+      phone1:document.getElementById('sPhone1').value.trim(),
+      phone2:document.getElementById('sPhone2').value.trim(),
+      email:document.getElementById('sEmail').value.trim()
+    },{merge:true});
+    showMsg(msgEl,'✅ Saved!','success');
+  } catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
+};
 
-window.showToast = showToast;
-window.loadProducts = loadProducts;
+// ── PASSWORD ──────────────────────────────────────────────
+window.changePassword = async function() {
+  const cur=document.getElementById('sCurPw').value;
+  const np=document.getElementById('sNewPw').value;
+  const conf=document.getElementById('sConfPw').value;
+  const msgEl=document.getElementById('pwMsg');
+  if(np!==conf){ showMsg(msgEl,'Passwords do not match.','error'); return; }
+  if(np.length<6){ showMsg(msgEl,'Min 6 characters.','error'); return; }
+  try {
+    const user=auth.currentUser;
+    const cred=EmailAuthProvider.credential(user.email,cur);
+    await reauthenticateWithCredential(user,cred);
+    await updatePassword(user,np);
+    showMsg(msgEl,'✅ Password updated!','success');
+    ['sCurPw','sNewPw','sConfPw'].forEach(id=>document.getElementById(id).value='');
+  } catch(e){ showMsg(msgEl,'Error: '+e.message,'error'); }
+};
+
+// ── HELPERS ───────────────────────────────────────────────
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.className=`toast ${type} show`; setTimeout(()=>t.classList.remove('show'),3000);
+}
+function showMsg(el,msg,type){
+  el.textContent=msg; el.style.display='block';
+  el.style.color=type==='error'?'#ff4444':type==='success'?'var(--green)':'var(--muted)';
+}
+window.showToast=showToast;
+window.loadProducts=loadProducts;
 </script>
 
 <script>
 window.switchTab = function(tab) {
-  document.querySelectorAll('.admin-tab').forEach((b,i) => {
-    const tabs = ['products','add','settings'];
-    b.classList.toggle('active', tabs[i]===tab);
+  document.querySelectorAll('.admin-tab').forEach((b,i)=>{
+    b.classList.toggle('active',['products','add','settings'][i]===tab);
   });
-  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+tab).classList.add('active');
-  // When opening settings, load the current hero image preview
-  if (tab === 'settings') loadCurrentHeroPreview();
+  if(tab==='settings') loadHeroPreview && loadHeroPreview();
 };
+function loadHeroPreview(){}// overridden by module
 </script>
 </body>
 </html>
